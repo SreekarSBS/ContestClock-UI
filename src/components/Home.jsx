@@ -1,16 +1,22 @@
 
+
 import CalendarUI from './CalendarUI'
+import ContestCalendar from './ContestCalendar'
 import ContestList from './ContestList'
 
+
+
+
 const Home = () => {
+ 
   return (
-    <>
-    <div className="font-bold  text-3xl mx-16 mt-8">Upcoming Contests</div>
-    <div className='flex-col flex sm:flex-row m-12 gap-4 '>
+    
+    
+    <div className='flex-col flex xl:flex-row m-10 '>
       <ContestList />
-      <CalendarUI />
+      <ContestCalendar />
     </div>
-    </>
+    
   )
 }
 

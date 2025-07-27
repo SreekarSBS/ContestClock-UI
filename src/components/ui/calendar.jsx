@@ -8,7 +8,7 @@ import { DayPicker, getDefaultClassNames } from "react-day-picker";
 
 import { cn } from "../../lib/utils"
 import { Button, buttonVariants } from "./button"
-import { useNavigate } from "react-router-dom";
+
 
 function Calendar({
   className,
@@ -141,7 +141,7 @@ function CalendarDayButton({
   ...props
 }) {
   
-  const [DateString,setDateString] = React.useState("")
+
   const defaultClassNames = getDefaultClassNames()
 
   const ref = React.useRef(null)
@@ -151,17 +151,12 @@ function CalendarDayButton({
       
   }, [modifiers.focused])
   
-  const handleClick = (ref) => {
-    setDateString(ref?.current?.ariaLabel)
-   
-    
-  }
-  
+
   return (
     <Button
       
       ref={ref}
-      onClick = {() =>handleClick(ref)}
+    
       variant="ghost"
       size="icon"
       data-day={day.date.toLocaleDateString()}
