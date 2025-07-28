@@ -18,6 +18,8 @@ const ContestList = () => {
         
     }
 //  if(!contests || contests.length === 0) return <ShimmerList />
+console.log(new Date(Date.now()));
+
   return (
     <div className='flex-col'><div className="font-bold montserrat-logo text-3xl mx-8">Upcoming Contests</div>
     <div className=' sm:w-full'>

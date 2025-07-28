@@ -1,29 +1,55 @@
 import { auth } from "../utils/firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth"
 import { Button } from "./ui/button";
-import { addUser } from "../utils/userSlice";
-import { useDispatch } from "react-redux";
+import { removeUser } from "../utils/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+
 
 const Header = () => {
+
+    const user = useSelector((store) =>store.user)
     const dispatch = useDispatch()
+
+
     const handleSignIn = async() => {
-        try {
-            const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider);
-            
-            // Get user info
-            const user = result.user;
-            console.log("✅ User Signed In:", user);
-            dispatch(addUser(user))
-            // Optional: Get Google Access Token
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential?.accessToken;
-            console.log("Access Token:", token);
-            
-          } catch (error) {
-            console.error("❌ Sign-in error:", error.message);
-          }
+      const provider = new GoogleAuthProvider()
+      signInWithPopup(auth, provider)
+      .then((result) => {
+       
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        console.log(token);
+        
+        const user = result.user;
+        console.log(user);
+        
+      
+      }).catch((error) => {
+    
+      
+        const errorMessage = error.message;
+       
+        console.log(errorMessage);
+        
+      });
     }
+
+    const handleSignOut = async() => {
+      signOut(auth).then(() => {
+    
+        dispatch(removeUser())
+      }).catch((error) => {
+        // An error happened.
+        console.log(error);
+        
+      });
+      
+    }
+
+    console.log(user);
+    
+    
 
     return <div className="navbar  border-b border-b-blue-400 bg-black  shadow-sm">
     <div className="navbar-start">
@@ -45,7 +71,8 @@ const Header = () => {
           <li><a>Registered</a></li>
         </ul>
       </div>
-      <a className="montserrat-logo btn btn-ghost text-2xl md:text-3xl  font-light">ContestCalendar</a>
+      <a className="hidden sm:block montserrat-logo btn btn-ghost text-2xl md:text-3xl  font-light">ContestCalendar</a>
+      <a className="block sm:hidden montserrat-logo btn btn-ghost text-2xl md:text-3xl  font-light">CC</a>
     </div>
     <div className="navbar-center hidden lg:flex">
       <ul className="menu menu-horizontal px-1">
@@ -63,10 +90,35 @@ const Header = () => {
       </ul>
     </div>
     <div className="navbar-end">
-    <div onClick={handleSignIn} className="flex ml-auto m-6  flex-wrap items-center gap-2 md:flex-row">
+   { !user? <div onClick={handleSignIn} className="flex ml-auto m-6  flex-wrap items-center gap-2 md:flex-row">
         <Button> Sign In</Button>
        
       </div>
+      :
+      <div className="dropdown dropdown-end m-6">
+        <span className="m-4 text-cyan-400  text-lg xl:text-xl hidden sm:inline-block ">{user?.displayName}</span>
+      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+        <div className="w-10 rounded-full">
+          <img
+            alt="Tailwind CSS Navbar component"
+            src={user?.photoURL} />
+        </div>
+      </div>
+      <ul
+        tabIndex={0}
+        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+        <li>
+          <a className="justify-between">
+            Profile
+            <span className="badge">New</span>
+          </a>
+        </li>
+        <li><a>Settings</a></li>
+        <li><a onClick={handleSignOut}>Logout</a></li>
+      </ul>
+    </div>
+  
+      }
     </div>
   </div>
   

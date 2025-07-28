@@ -12,10 +12,13 @@ const events = [
 const ContestCalendar = () => {
      const navigate = useNavigate()
      const [date, setDate] = useState(new Date());
+     console.log(date);
+     
      const handleClick = (arg) => {
         setDate(arg.date)
-        // console.log(arg.date);
-        navigate("/contests/"+arg?.date)
+         console.log(arg.date);
+         const formatted = arg?.date.toISOString().split("T")[0];
+        navigate("/contests/"+formatted)
      }
   return (
     <div className="w-full h-full">
