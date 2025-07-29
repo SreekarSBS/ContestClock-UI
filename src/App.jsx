@@ -5,6 +5,7 @@ import DayContests from "./components/DayContests"
 import ContestCalendar from "./components/ContestCalendar"
 import { Provider } from "react-redux"
 import appStore from "./utils/appStore"
+import RegisteredContests from "./components/RegisteredContests"
 
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path = "/" element = {<Home/>} />
         <Route path = "/contests/:date" element = {<DayContests/>} />
         <Route path = "/contest" element = {<ContestCalendar/>} />
+        <Route path = "/user/registered-contests" element = {<RegisteredContests/>} />
          </Route>
       </Routes>
     </BrowserRouter>

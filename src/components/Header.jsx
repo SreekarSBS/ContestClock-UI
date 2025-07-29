@@ -94,7 +94,7 @@ const Header = () => {
             </ul>
           </details>
         </li>
-        <li><a>Registered Contests</a></li>
+        <li><Link to = "/user/registered-contests">Registered Contests</Link></li>
       </ul>
     </div>
     <div className="navbar-end">
