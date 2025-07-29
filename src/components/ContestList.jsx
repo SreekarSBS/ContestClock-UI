@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import ShimmerList from './Shimmer/ShimmerList';
 import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
+import { useSelector } from 'react-redux';
 
 const ContestList = () => {
     const [contests,setContests] = useState();
-
+    const [isContestSaved,setIsContestSaved] = useState(false)
+    const userMain  = useSelector(store => store.user)
     useEffect(() => {
         fetchContests()
     },[])
@@ -25,8 +27,23 @@ const ContestList = () => {
             console.log(err);
         }
     }
-//   if(!contests || contests.length === 0) return <ShimmerList />
+   if(!contests || contests.length === 0) return <ShimmerList />
 
+    const handleRemindClick = async(contestId) => {
+        try{
+      const res = await axios.post(BASE_URL + "/user/saveContests/" + contestId ,{},{
+        withCredentials : true,
+        headers : {
+            'Authorization' : "Bearer " + userMain?.token
+        }
+      })
+      setIsContestSaved(true)
+      console.log(res);
+    }
+    catch(err){
+        console.log(err);
+    }
+    }
 
   return (
     <div className='flex-col'><div className="font-bold montserrat-logo text-3xl mx-8">Upcoming Contests</div>
@@ -42,7 +59,7 @@ const ContestList = () => {
                     {
                         item?.platform === "leetcode" && <img className='max-h-18 m-0.5' width="66" height="36" src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/96/external-level-up-your-coding-skills-and-quickly-land-a-job-logo-shadow-tal-revivo.png" alt="external-level-up-your-coding-skills-and-quickly-land-a-job-logo-shadow-tal-revivo"/>  }
                       {
-                        item?.platform === "atcoder" && <img className='my-auto max-h-14 m-0.5' width="76" height="36" src="https://img.atcoder.jp/logo/atcoder/logo_white.png"/>  }
+                        item?.platform === "atcoder" && <img className='my-auto max-h-14 m-1.5' width="58" height="36" src="https://codolio.com/icons/atcoder_dark.png"/>  }
             
                    <div>
                     
@@ -50,8 +67,8 @@ const ContestList = () => {
                     <div>{new Date(item?.contestStartDate).toUTCString()}</div>
                     </div>
                     <div className=" ml-auto flex flex-col items-center lg:flex-row">
-                        <button className='bg-gradient-to-l from-blue-400 to-cyan-500 text-black  p-1.5 md:p-2   m-2 rounded-2xl'>Register</button>
-                        <button className=' p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>Remind</button>
+                        <button className='cursor-pointer hover:text-white bg-gradient-to-l from-blue-400 to-cyan-500 text-black  p-1.5 md:p-2   m-2 rounded-2xl'>Register</button>
+                        <button onClick={() => handleRemindClick(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>Remind</button>
                     </div>
                 </div>
                 )

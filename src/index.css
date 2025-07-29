@@ -13,6 +13,40 @@
   font-style: normal;
   font-size: 2.5rem; 
 }
+.montserrat-item {
+  font-family: "Montserrat",;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 2.5rem; 
+}
+
+/* index.css */
+.popover {
+  position: absolute;
+  z-index: 1060;
+  display: block;
+  max-width: 276px;
+  font-family: "Montserrat";
+  font-size: 0.875rem;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.popover-header {
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+}
+
+.popover-body {
+  padding: 0.5rem 0.75rem;
+}
 
 
 @custom-variant dark (&:is(.dark *));

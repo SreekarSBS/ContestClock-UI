@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
+import Popovers from "./Popovers";
+
 
 const ContestCalendar = () => {
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const ContestCalendar = () => {
           contestName,
           contestDuration,
           contestCode,
+          contestStartDate
         } = item;
         return  {
           title: item?.contestName,
@@ -42,6 +45,7 @@ const ContestCalendar = () => {
          
           url: item?.contestUrl,
           extendedProps: {
+            contestStartDate,
             platform,
             contestEndDate,
             contestType,
@@ -63,7 +67,7 @@ const ContestCalendar = () => {
   const handleClick = (arg) => {
     setDate(arg.date);
     console.log(arg.date);
-    const formatted = arg?.date.toISOString().split("T")[0];
+    const formatted = arg?.date.toLocaleDateString('en-CA')
     navigate("/contests/" + formatted);
   };
   return (
@@ -76,10 +80,8 @@ const ContestCalendar = () => {
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
         events={events}
-        eventContent={(eventInfo) =><div className="flex items-center overflow-x-auto p-1.5  bg-gray-300/60 text-sm  rounded-2xl"> 
-         {eventInfo.event.extendedProps.platform === "codeforces"&& <img  src="https://codolio.com/icons/codeforces.png" width={25} alt = "Platform Logo" />}
-          <span className="overflow-hidden font-semibold text-black">{eventInfo.event.extendedProps.contestName} </span>
-          </div>
+        eventContent={(eventInfo) =><Popovers eventInfo={eventInfo}/>
+          
           }
         dayCellContent={(arg) => {
           return (
@@ -94,9 +96,9 @@ const ContestCalendar = () => {
         }}
         eventClick={(info) => {
           console.log(info);
-
+          
           info.jsEvent.preventDefault();
-           window.location.href = info.event.url;
+          //  window.open(info.event.url);
         }}
       />
     </div>

@@ -103,13 +103,15 @@ const Header = () => {
        
       </div>
       :
-      <div className="dropdown dropdown-end m-6">
-        <span className="m-4 text-cyan-400  text-lg xl:text-xl hidden sm:inline-block ">{user?.displayName}</span>
+      <div className="dropdown dropdown-end m-6 flex">
+        <span className="m-2 mx-4 text-cyan-400  text-lg xl:text-xl hidden sm:block ">{user?.displayName}</span>
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
-            src={user?.photoURL} />
+            src={user?.photoURL} 
+          
+            />
         </div>
       </div>
       <ul

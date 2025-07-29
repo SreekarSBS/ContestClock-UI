@@ -6,34 +6,58 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { addUser } from '../utils/userSlice'
 import { useDispatch } from 'react-redux'
+import axios from 'axios'
+import { BASE_URL } from '../utils/constants'
 
 
 const Body = () => {
-  const [userPresent,setUserPresent] = useState(false);
+  
   const dispatch = useDispatch()
+  const [pictureURL,setPictureURL] = useState("")
+
+  const fetchPutUser = async(token) => {
+    try{
+    const userDocument =await axios.get(BASE_URL + "/user",{
+      withCredentials : true,
+      headers : {
+        'Authorization': 'Bearer ' +token
+      }
+    })
+    setPictureURL(userDocument?.data?.data?.picture)
+    
+    
+  }catch(err){
+    console.log(err);
+    
+  }
+  }
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log(user);
-        
+        fetchPutUser(user?.accessToken)
         const cleanedUser = {
           uid: user.uid,
           displayName: user.displayName,
           email: user.email,
-          photoURL: user.photoURL
+          photoURL: user.photoURL,
+          token : user?.accessToken
         };
        dispatch(addUser(cleanedUser))
-        setUserPresent(true)
+      
         
       } else {
-          setUserPresent(false)
+         
           console.log("Sign In");
       }
     });
-  }, []);
+  }, [auth]);
+  console.log(pictureURL);
+  
   return (
     <div className='min-h-screen flex flex-col'>
-      <Header  userPresent = {userPresent} setUserPresent = {setUserPresent} />
+      <Header pictureURL = {pictureURL} />
       <main className='flex-grow'>
       <Outlet />
       </main>
