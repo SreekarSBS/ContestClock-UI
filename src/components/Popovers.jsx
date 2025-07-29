@@ -4,6 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "./ui/popover"
+import AddCalendar from "./AddCalendar";
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 const optionsTimer = { hour : 'numeric',minute : 'numeric'}
 
@@ -21,7 +22,7 @@ const Popovers = ({eventInfo}) =>
 {
         eventInfo.event.extendedProps?.platform === "leetcode" && <img className='max-h-18 m-0.5' width="28" height="36" src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/96/external-level-up-your-coding-skills-and-quickly-land-a-job-logo-shadow-tal-revivo.png" alt="external-level-up-your-coding-skills-and-quickly-land-a-job-logo-shadow-tal-revivo"/>  }
 {
-       eventInfo.event.extendedProps?.platform === "atcoder" && <img className='my-auto m-1.5' width="30" height="46" src="https://codolio.com/icons/atcoder_dark.png"/>  }
+       eventInfo.event.extendedProps?.platform === "atcoder" && <img className='my-auto bg-black p-0.5 rounded-full m-1.5' width="30" height="46" src="https://codolio.com/icons/atcoder_dark.png"/>  }
          {eventInfo.event.extendedProps.platform === "codeforces"&& <img className="m-0.5" src="https://codolio.com/icons/codeforces.png" width={25} alt = "Platform Logo" />}
           <span className="overflow-hidden font-semibold text-black">{eventInfo.event.extendedProps.contestName} </span>
 
@@ -30,24 +31,36 @@ const Popovers = ({eventInfo}) =>
 
   <PopoverContent className="bg-gray-400 border border-cyan-200 animate-out  duration-500">
    
-      <div className="text-xl mb-4 text-cyan-100 underline font-stretch-125% underline-offset-4 " >{eventInfo.event.title}</div>
+      <div className="text-xl mb-4  underline font-stretch-125% underline-offset-4 " >{eventInfo.event.title}</div>
       <div className="flex">
-      <img className="m-2 " width="30" height="2" src="https://img.icons8.com/ios/50/calendar--v1.png" alt="calendar--v1"/>
+      <img className="m-2" width="34" height="30" src="https://img.icons8.com/badges/48/calendar.png" alt="calendar"/>
       <span className="text-xl font-stretch-60% my-auto" >{new Date(eventInfo?.event?.extendedProps?.contestStartDate).toLocaleString('en-us',options)}</span>
       </div>
       <div className="flex">
-      <img className="m-2 " width="30" height="30" src="https://img.icons8.com/ios/50/present.png" alt="present"/>
+      <svg className="m-2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="34" height="30" viewBox="0 0 48 48">
+<circle cx="24" cy="25" r="20"></circle><circle cx="24" cy="23" r="19" fill="#fff"></circle><path d="M24,43C12.972,43,4,34.028,4,23S12.972,3,24,3s20,8.972,20,20S35.028,43,24,43z M24,5C14.075,5,6,13.075,6,23	s8.075,18,18,18s18-8.075,18-18S33.925,5,24,5z"></path><circle cx="24" cy="23" r="2"></circle><circle cx="24" cy="9" r="1"></circle><circle cx="24" cy="37" r="1"></circle><circle cx="38" cy="23" r="1"></circle><circle cx="10" cy="24" r="1"></circle><path d="M33.707,13.293c-0.391-0.391-1.023-0.391-1.414,0l-9,9c-0.391,0.391-0.391,1.023,0,1.414l5,5C28.488,28.902,28.744,29,29,29	s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414L25.414,23l8.293-8.293C34.098,14.316,34.098,13.684,33.707,13.293z"></path>
+</svg>
       <span className="text-xl  font-stretch-50% my-auto  " >{new Date(eventInfo?.event?.extendedProps?.contestStartDate).toLocaleString('en-us',optionsTimer)}</span>
       </div>
       <div className="flex">
-      <img className="m-2" width="30" height="30" src="https://img.icons8.com/ios/50/stopwatch.png" alt="stopwatch"/>
+      <img className="m-2" width="34" height="30" src="https://img.icons8.com/badges/48/stopwatch.png" alt="stopwatch"/>
       <span className="text-xl  font-stretch-50% my-auto  " >{ Math.floor(Number(eventInfo?.event?.extendedProps?.contestDuration)/3600) } : {String(Math.floor(Number(eventInfo?.event?.extendedProps?.contestDuration)%3600/60)).padStart(2, "0")} hrs</span>
       </div>
-      <div className="flex">
-      <img className="m-2" width="30" height="30" src="https://img.icons8.com/ios/50/link--v1.png" alt="link--v1"/>
-      <Link to = {eventInfo?.event?.url} className="text-xl underline text-lime-400 font-stretch-50% my-auto  " >Register Now</Link>
-    
+      <div className="flex ">
+     
+      {
+          new Date(eventInfo?.event?.extendedProps?.contestEndDate) >= new Date() ?
+      <> <img className="m-2" width="30" height="30" src="https://img.icons8.com/ios/50/link--v1.png" alt="link--v1"/>
+      <Link target="_blank" to = {eventInfo?.event?.url} className="text-xl underline text-lime-400 font-stretch-50% my-auto  " >Register Now</Link></>
+      :<>
+      <img width="30" height="30" className="m-2" src="https://img.icons8.com/color/48/spam.png" alt="spam"/>
+      <Link target="_blank" to = {eventInfo?.event?.url} className="text-xl underline text-amber-400 font-stretch-50% my-auto  " >Contest Ended</Link></>
+      }
+     
       </div>
+      <span className="flex">
+      <img className="m-2" width="33" height="48" src="https://img.icons8.com/badges/48/calendar-plus.png" alt="calendar-plus"/>
+       <AddCalendar eventInfo = {eventInfo} /></span>
   </PopoverContent>
 </Popover>
 
