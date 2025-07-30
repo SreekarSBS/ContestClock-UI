@@ -8,6 +8,11 @@ import { addUser } from '../utils/userSlice'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
+import { Bounce, ToastContainer } from 'react-toastify'
+
+
+
+
 
 
 const Body = () => {
@@ -57,9 +62,15 @@ const Body = () => {
   
   return (
     <div className='min-h-screen flex flex-col'>
+      
       <Header pictureURL = {pictureURL} />
+    
+      <ToastContainer/>
+
       <main className='flex-grow'>
+    
       <Outlet />
+      
       </main>
       <Footer />
     </div>

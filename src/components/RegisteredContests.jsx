@@ -2,6 +2,7 @@ import { BASE_URL } from '../utils/constants'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Bounce, toast, ToastContainer } from 'react-toastify'
 
 const RegisteredContests = () => {
     const user = useSelector(store => store.user)
@@ -26,7 +27,21 @@ const RegisteredContests = () => {
             console.log(err);
         }
     }
-
+  if(!user){
+    toast.info('Please Login to view your Registered Contests!', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+      });
+    
+     
+  }
   return (
     <div>
      { savedContests?.map((item) => {

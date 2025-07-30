@@ -69,7 +69,7 @@ const Header = () => {
               <li><a>Submenu 2</a></li>
             </ul>
           </li>
-          <li><a>Registered</a></li>
+          <li><Link to = "/user/registered-contests">Registered</Link></li>
         </ul>
       </div>
      
@@ -89,7 +89,7 @@ const Header = () => {
           <details>
             <summary>Parent</summary>
             <ul className="p-2">
-              <li><a>Submenu 1</a></li>
+              <li><Link to = "/contest">Event Tracker</Link></li>
               <li><a>Submenu 2</a></li>
             </ul>
           </details>

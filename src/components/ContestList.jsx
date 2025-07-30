@@ -4,13 +4,35 @@ import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import { useSelector } from 'react-redux';
 
+import { Bounce, toast } from 'react-toastify';
+
 const ContestList = () => {
     const [contests,setContests] = useState();
-    const [isContestSaved,setIsContestSaved] = useState(false)
+    
     const userMain  = useSelector(store => store.user)
+    const[savedContests,setSavedContests] = useState()
     useEffect(() => {
         fetchContests()
     },[])
+    useEffect(() => {
+    fetchRegisteredContests()
+    },[userMain])
+
+    const fetchRegisteredContests = async() => {
+        try{
+            const res = await axios.get(BASE_URL + "/user/registeredContests",{
+                withCredentials : true,
+                headers : {
+                    'Authorization': 'Bearer ' + userMain?.token
+                }
+            })
+            setSavedContests(res?.data?.data.savedContests);
+            console.log(res?.data?.data.savedContests);
+            
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     const fetchContests = async() => {
         try {
@@ -31,17 +53,68 @@ const ContestList = () => {
 
     const handleRemindClick = async(contestId) => {
         try{
+            if(!userMain)  toast.error('Please Login to register Contests!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+                });
       const res = await axios.post(BASE_URL + "/user/saveContests/" + contestId ,{},{
         withCredentials : true,
         headers : {
             'Authorization' : "Bearer " + userMain?.token
         }
       })
-      setIsContestSaved(true)
-      console.log(res);
+    
+      setSavedContests(res?.data?.data.savedContests);
+      console.log(res?.data?.data.savedContests);
+      toast.success('Reminder Set Successfully !', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+        });
     }
     catch(err){
         console.log(err);
+    }
+    }
+
+    const handleDeleteContest = async(contestId) => {
+        
+        try {
+        const res = await axios.delete(BASE_URL +"/user/deleteContests/"+contestId,{
+            withCredentials : true,
+            headers : {
+                'Authorization': 'Bearer ' + userMain?.token
+            }
+        })
+        setSavedContests(res?.data?.data?.savedContests)
+        console.log(res?.data?.data?.savedContests);
+        toast.success('Reminder removed Successfully !', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+            });
+    }catch(err){
+        console.log(err);
+        
     }
     }
 
@@ -64,14 +137,30 @@ const ContestList = () => {
                       {
                         item?.platform === "atcoder" && <img className='my-auto max-h-14 m-1.5' width="58" height="36" src="https://codolio.com/icons/atcoder_dark.png"/>  }
             
-                   <div>
+                   <div className='w-1/2'>
                     
                     <div className='md:text-xl xl:text-2xl font-light text-sky-400'>{item?.contestName}</div>
                     <div>{new Date(item?.contestStartDate).toUTCString()}</div>
                     </div>
                     <div className=" ml-auto flex flex-col items-center lg:flex-row">
                         <button className='cursor-pointer hover:text-white bg-gradient-to-l from-blue-400 to-cyan-500 text-black  p-1.5 md:p-2   m-2 rounded-2xl'>Register</button>
-                        <button onClick={() => handleRemindClick(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>Remind</button>
+                       {  savedContests?.some(contest => contest._id === item?._id)  ?  <button onClick={() => handleDeleteContest(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>
+                          <img width="40" height="34" src="https://img.icons8.com/arcade/64/alarm.png" alt="alarm"/> 
+                        
+                       
+                        </button>
+                        :
+                        <button onClick={() => handleRemindClick(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>
+                          
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="44" viewBox="0 0 64 64">
+<path fill="orange" d="M35,11h-6V9c0-1.657,1.343-3,3-3h0c1.657,0,3,1.343,3,3V11z"></path><circle cx="32" cy="48" r="7" fill="orange"></circle><path fill="#ffce29" d="M49.965,40.226c-1.218-1.449-1.962-3.236-2.132-5.121L46.468,21.94	c-0.308-3.8-2.378-7.258-5.615-9.272c-10.933-6.8-22.597,0.346-23.444,10.788l-1.241,11.653c-0.171,1.882-0.915,3.667-2.131,5.114	l-2.88,3.426C9.71,45.371,10.934,48,13.184,48h37.632c2.25,0,3.474-2.629,2.027-4.351L49.965,40.226z"></path><path fill="#fff" d="M27.67,16.025c1.88-0.947,5.75-2.091,10.542,0.889c2.032,1.264,4.615,0.888,6.218-0.76 c-0.928-1.382-2.127-2.585-3.577-3.486c-10.933-6.8-22.597,0.346-23.444,10.788l-0.528,4.961c0.043,0.005,0.082,0.019,0.125,0.023 c0.137,0.011,0.274,0.017,0.409,0.017c2.579,0,4.767-1.981,4.979-4.597C22.667,20.481,24.64,17.552,27.67,16.025z" opacity=".3"></path><path d="M52.843,43.649l-2.877-3.423c-1.218-1.449-1.962-3.236-2.132-5.121l-0.515-4.967 c-2.715,0.282-4.71,2.688-4.465,5.415c0.191,2.123,0.844,4.145,1.911,5.953C45.155,42.166,44.647,43,43.88,43H30 c-2.761,0-5,2.239-5,5h25.816C53.066,48,54.29,45.371,52.843,43.649z" opacity=".15"></path><ellipse cx="32" cy="61" opacity=".3" rx="19" ry="3"></ellipse><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3" d="M22.467,19.938c0.585-1.174,1.381-2.225,2.335-3.105s2.066-1.588,3.283-2.076"></path>
+</svg>
+                       
+                        </button>
+            }
+
+
+                        
                     </div>
                 </div>
                 )

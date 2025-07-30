@@ -31,7 +31,7 @@ const AddCalendar = ({eventInfo}) => {
   location="Online"
   description={`Reminder to attempt the contest ${eventInfo?.event?.title}`}
   timeZone="Asia/Kolkata"
-  buttonStyle="round"
+  buttonStyle="3d"
   trigger="click"
 ></AddToCalendarButton>
     </div>
