@@ -110,7 +110,7 @@ const Header = () => {
           <img
             alt="Tailwind CSS Navbar component"
             src={user?.photoURL} 
-          
+            rel="no referrer"
             />
         </div>
       </div>
