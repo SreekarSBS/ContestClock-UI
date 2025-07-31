@@ -1,7 +1,7 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import Popovers from "./Popovers";
@@ -12,16 +12,16 @@ const ContestCalendar = () => {
   const [date, setDate] = useState(new Date());
   const [contests, setContests] = useState([]);
   const [events, setEvents] = useState([]);
-
+  const [visibleContests] = useOutletContext()
   console.log(date);
 
   useEffect(() => {
     fetchContests();
-  }, []);
+  }, [visibleContests]);
 
   const fetchContests = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/contests/platform/all", {
+      const res = await axios.get(BASE_URL + `/contests/platform?platforms=${visibleContests.join(",")}`, {
         withCredentials: true,
       });
       setContests(res?.data?.data);

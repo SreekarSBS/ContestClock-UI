@@ -20,7 +20,7 @@ const Body = () => {
   
   const dispatch = useDispatch()
   const [pictureURL,setPictureURL] = useState("")
-  
+  const [visibleContests,setVisibleContests] = useState(['leetcode','codeforces','atcoder','codechef','geeksforgeeks'])
   const fetchPutUser = async(token) => {
     try{
     const userDocument =await axios.get(BASE_URL + "/user",{
@@ -70,7 +70,7 @@ const Body = () => {
 
       <main className='flex-grow'>
     
-      <Outlet />
+      <Outlet context ={[visibleContests, setVisibleContests ]} />
       
       </main>
       <Footer />
