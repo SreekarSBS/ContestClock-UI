@@ -2,43 +2,48 @@ import React, { useEffect, useState } from 'react'
 import ShimmerList from './Shimmer/ShimmerList';
 import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
-import { useSelector } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'antd';
 import { Bounce, toast } from 'react-toastify';
 import { useOutletContext } from 'react-router-dom';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import AddCalendar from "./AddCalendar";
+import { addContest } from '../utils/registeredContestsSlice';
+
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 const optionsTimer = { hour : 'numeric',minute : 'numeric'} 
 
 const ContestList = () => {
     const [contests,setContests] = useState();
+    const dispatch = useDispatch()
+     const savedContests = useSelector(store => store.registeredContests)
     const [visibleContests,setVisibleContests] = useOutletContext()
     const user  = useSelector(store => store.user)
-    const[savedContests,setSavedContests] = useState()
+    // const[savedContests,setSavedContests] = useState()
     useEffect(() => {
         fetchContests()
     },[visibleContests])
-    useEffect(() => {
-    if (!user?.token) return;  
-    fetchRegisteredContests()
-    },[user?.token,visibleContests])
+    // useEffect(() => {
+    // if (!user?.token) return;  
+    // fetchRegisteredContests()
+    // },[user?.token,visibleContests])
 
-    const fetchRegisteredContests = async() => {
-        try{
-            const res = await axios.get(BASE_URL + "/user/registeredContests",{
-                withCredentials : true,
-                headers : {
-                    'Authorization': 'Bearer ' + user?.token
-                }
-            })
-            setSavedContests(res?.data?.data.savedContests);
-            console.log(res?.data?.data.savedContests);
+    // const fetchRegisteredContests = async() => {
+    //     try{
+    //         const res = await axios.get(BASE_URL + "/user/registeredContests",{
+    //             withCredentials : true,
+    //             headers : {
+    //                 'Authorization': 'Bearer ' + user?.token
+    //             }
+    //         })
+    //         setSavedContests(res?.data?.data.savedContests);
+    //         dispatch(addContest(res?.data?.data.savedContests))
+    //         console.log(res?.data?.data.savedContests);
             
-        }catch(err){
-            console.log(err);
-        }
-    }
+    //     }catch(err){
+    //         console.log(err);
+    //     }
+    // }
 
     const fetchContests = async() => {
         try {
@@ -77,7 +82,7 @@ const ContestList = () => {
         }
       })
     
-      setSavedContests(res?.data?.data.savedContests);
+      dispatch(addContest(res?.data?.data.savedContests));
       console.log(res?.data?.data.savedContests);
       toast.success('Reminder Set for an Hour before the contest !', {
         position: "top-right",
@@ -105,7 +110,7 @@ const ContestList = () => {
                 'Authorization': 'Bearer ' + user?.token
             }
         })
-        setSavedContests(res?.data?.data?.savedContests)
+        dispatch(addContest(res?.data?.data?.savedContests))
         console.log(res?.data?.data?.savedContests);
         toast.success('Reminder removed Successfully !', {
             position: "top-right",
@@ -210,12 +215,12 @@ const ContestList = () => {
                     {
                         item?.platform === "leetcode" && <img className='max-h-18 m-0.5' width="66" height="36" src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/96/external-level-up-your-coding-skills-and-quickly-land-a-job-logo-shadow-tal-revivo.png" alt="external-level-up-your-coding-skills-and-quickly-land-a-job-logo-shadow-tal-revivo"/>  }
                       {
-                        item?.platform === "atcoder" && <img className='my-auto max-h-14 m-1.5' width="58" height="36" src="https://codolio.com/icons/atcoder_dark.png"/>  }
+                        item?.platform === "atcoder" && <img className='max-h-14 m-1.5' width="58" height="36" src="https://codolio.com/icons/atcoder_dark.png"/>  }
             
                    <div className='w-1/2'>
                     
                     <div className='md:text-xl xl:text-2xl font-light text-sky-400'>{item?.contestName}</div>
-                    <div className='flex flex-col lg:flex-row xl:flex-col 2xl:flex-row  '>
+                    <div className='flex flex-col lg:flex-row xl:flex-col 2xl:flex-row justify-evenly '>
                     <div>
                    
                      <div className="flex">

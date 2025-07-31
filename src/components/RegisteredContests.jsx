@@ -13,28 +13,28 @@ import CardsContest from './CardsContest'
 
 const RegisteredContests = () => {
     const user = useSelector(store => store.user)
-    const [savedContests,setSavedContests] = useState()
+    // const [savedContests,setSavedContests] = useState()
+    const savedContests = useSelector(store => store.registeredContests)
 
+    // useEffect(() => {
+    //   if (!user?.token) return;  
+    //   fetchRegisteredContests()
+    // },[user?.token])
 
-    useEffect(() => {
-      if (!user?.token) return;  
-      fetchRegisteredContests()
-    },[user?.token])
-
-    const fetchRegisteredContests = async() => {
-        try{
-            const res = await axios.get(BASE_URL + "/user/registeredContests",{
-                withCredentials : true,
-                headers : {
-                    'Authorization': 'Bearer ' + user?.token
-                }
-            })
-            setSavedContests(res?.data?.data.savedContests);
+    // const fetchRegisteredContests = async() => {
+    //     try{
+    //         const res = await axios.get(BASE_URL + "/user/registeredContests",{
+    //             withCredentials : true,
+    //             headers : {
+    //                 'Authorization': 'Bearer ' + user?.token
+    //             }
+    //         })
+    //         setSavedContests(res?.data?.data.savedContests);
            
-        }catch(err){
-            console.log(err);
-        }
-    }
+    //     }catch(err){
+    //         console.log(err);
+    //     }
+    // }
   if(!user){
     toast.info('Please Login to view your Registered Contests!', {
       position: "top-center",
