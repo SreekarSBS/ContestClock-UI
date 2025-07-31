@@ -8,7 +8,8 @@ import { addUser } from '../utils/userSlice'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
-import { Bounce, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
+
 
 
 
@@ -19,7 +20,7 @@ const Body = () => {
   
   const dispatch = useDispatch()
   const [pictureURL,setPictureURL] = useState("")
-
+  
   const fetchPutUser = async(token) => {
     try{
     const userDocument =await axios.get(BASE_URL + "/user",{

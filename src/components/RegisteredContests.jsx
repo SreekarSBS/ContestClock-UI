@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import AddCalendar from './AddCalendar'
 import { formatDistanceToNow } from 'date-fns';
 
+
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 const optionsTimer = { hour : 'numeric',minute : 'numeric'} 
 
@@ -16,19 +17,20 @@ const RegisteredContests = () => {
 
 
     useEffect(() => {
+      if (!user?.token) return;  
       fetchRegisteredContests()
-    },[user])
+    },[user?.token])
 
     const fetchRegisteredContests = async() => {
         try{
             const res = await axios.get(BASE_URL + "/user/registeredContests",{
                 withCredentials : true,
                 headers : {
-                    'Authorization': 'Bearer ' + user.token
+                    'Authorization': 'Bearer ' + user?.token
                 }
             })
             setSavedContests(res?.data?.data.savedContests);
-            
+           
         }catch(err){
             console.log(err);
         }
@@ -48,6 +50,11 @@ const RegisteredContests = () => {
     
      
   }
+
+ 
+  // Default values shown
+ 
+
   return (
     <div>
     <div className=" w-1/2 text-center h-16 mx-auto mt-6 rounded-full  bg-">
@@ -55,7 +62,7 @@ const RegisteredContests = () => {
     </div>
     { savedContests?.map((item) => {
     
-      return <ul className="list w-[80%] mx-auto my-4 rounded-3xl border-l-red-400 border-l-4 border-b-4 border-b-red-500 bg-base-100  shadow-md">
+      return <ul key={item._id} className="list w-[80%] mx-auto my-4 rounded-3xl border-l-red-400 border-l-4 border-b-4 border-b-red-500 bg-base-100  shadow-md">
   
   
   
@@ -131,7 +138,7 @@ const RegisteredContests = () => {
 <div className="m-2 block md:hidden  ">
     <span className="flex ">
    
-     <AddCalendar item = {item} eventInfo={null} /></span>
+     <AddCalendar item = {item} /></span>
     {
         new Date(item?.contestEndDate) >= new Date() ?
     <span className='flex'> <img className='m-2' width="32" height="32" src="https://img.icons8.com/external-kmg-design-outline-color-kmg-design/32/external-export-arrow-kmg-design-outline-color-kmg-design.png" alt="external-export-arrow-kmg-design-outline-color-kmg-design"/>

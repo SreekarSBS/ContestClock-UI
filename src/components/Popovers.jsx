@@ -28,7 +28,7 @@ const Popovers = ({eventInfo}) =>
 </PopoverTrigger>
 
 
-  <PopoverContent className="bg-gray-400 border border-cyan-200 animate-out  duration-500">
+  <PopoverContent className="bg-black text-amber-50 border border-cyan-200 animate-out  duration-500">
    
   <PopoverData eventInfo={eventInfo} />
   </PopoverContent>

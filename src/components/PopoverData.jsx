@@ -6,7 +6,7 @@ const optionsTimer = { hour : 'numeric',minute : 'numeric'}
 
 const PopoverData = ({eventInfo}) => {
   return (<>
-    <div className="text-xl mb-4  underline font-stretch-125% underline-offset-4 " >{eventInfo?.event?.title}</div>
+    <div className="text-xl mb-4 text-blue-500 underline font-stretch-125% underline-offset-4 " >{eventInfo?.event?.title}</div>
       <div className="flex">
       <img className="m-2" width="34" height="30" src="https://img.icons8.com/badges/48/calendar.png" alt="calendar"/>
       <span className="text-xl font-stretch-60% my-auto" >{new Date(eventInfo?.event?.extendedProps?.contestStartDate).toLocaleString('en-us',options)}</span>
@@ -34,8 +34,8 @@ const PopoverData = ({eventInfo}) => {
      
       </div>
       <span className="flex">
-      <img className="m-2" width="33" height="48" src="https://img.icons8.com/badges/48/calendar-plus.png" alt="calendar-plus"/>
-       <AddCalendar eventInfo = {eventInfo} item = {null} /></span>
+      <img className="m-2 max-h-10" width="33" height="48" src="https://img.icons8.com/badges/48/calendar-plus.png" alt="calendar-plus"/>
+       <AddCalendar eventInfo = {eventInfo}/></span>
   </>)
 }
 
