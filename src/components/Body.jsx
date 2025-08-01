@@ -5,10 +5,11 @@ import Footer from './Footer'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { addUser } from '../utils/userSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
 import { ToastContainer } from 'react-toastify'
+import { addContest } from '../utils/registeredContestsSlice'
 
 
 
@@ -19,6 +20,8 @@ import { ToastContainer } from 'react-toastify'
 const Body = () => {
   
   const dispatch = useDispatch()
+  const savedContests = useSelector(store => store.registeredContests)
+  const user = useSelector((store) => store.user)
   const [pictureURL,setPictureURL] = useState("")
   const [visibleContests,setVisibleContests] = useState(['leetcode','codeforces','atcoder','codechef','geeksforgeeks'])
   const fetchPutUser = async(token) => {
@@ -37,6 +40,27 @@ const Body = () => {
     
   }
   }
+
+  useEffect(() => { 
+    fetchRegisteredContests()
+    },[user])
+
+    const fetchRegisteredContests = async() => {
+        try{
+            const res = await axios.get(BASE_URL + "/user/registeredContests",{
+                withCredentials : true,
+                headers : {
+                    'Authorization': 'Bearer ' + user?.token
+                }
+            })
+            
+            dispatch(addContest(res?.data?.data.savedContests))
+            console.log(res?.data?.data.savedContests);
+            
+        }catch(err){
+            console.log(err);
+        }
+    }  
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
