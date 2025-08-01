@@ -9,8 +9,9 @@ const registeredContestSlice = createSlice({
             const filteredContests = state.filter(item => item._id != action.payload)
             return filteredContests
         },
+        clearContest :() => null
     }
 })
 
-export const {addContest,removeContest} = registeredContestSlice.actions;
+export const {addContest,removeContest,clearContest} = registeredContestSlice.actions;
 export default registeredContestSlice.reducer

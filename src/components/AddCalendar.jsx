@@ -19,7 +19,7 @@ const AddCalendar = ({eventInfo,item}) => {
     
 
   return (
-    <div>
+    
       <AddToCalendarButton
   name={eventInfo?.event?.title || item?.contestName}
   options={['Apple','Google','Yahoo','iCal']}
@@ -33,7 +33,7 @@ const AddCalendar = ({eventInfo,item}) => {
   buttonStyle="3d"
   trigger="click"
 ></AddToCalendarButton>
-    </div>
+   
   )
 }
 

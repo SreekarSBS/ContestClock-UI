@@ -5,49 +5,39 @@ import { BASE_URL } from '../utils/constants';
 import {  useDispatch, useSelector } from 'react-redux';
 import { Switch } from 'antd';
 import { Bounce, toast } from 'react-toastify';
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 // import { Link } from "react-router-dom";
 import AddCalendar from "./AddCalendar";
 import { addContest } from '../utils/registeredContestsSlice';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+  } from "./ui/accordion"
+
 
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 const optionsTimer = { hour : 'numeric',minute : 'numeric'} 
 
 const ContestList = () => {
+    
     const [contests,setContests] = useState();
     const dispatch = useDispatch()
      const savedContests = useSelector(store => store.registeredContests)
-    const [visibleContests,setVisibleContests] = useOutletContext()
+    const context = useOutletContext()
+    const visibleContests = context[0];
+    const setVisibleContests = context[1];
     const user  = useSelector(store => store.user)
-    // const[savedContests,setSavedContests] = useState()
+   
     useEffect(() => {
         fetchContests()
     },[visibleContests])
-    // useEffect(() => {
-    // if (!user?.token) return;  
-    // fetchRegisteredContests()
-    // },[user?.token,visibleContests])
-
-    // const fetchRegisteredContests = async() => {
-    //     try{
-    //         const res = await axios.get(BASE_URL + "/user/registeredContests",{
-    //             withCredentials : true,
-    //             headers : {
-    //                 'Authorization': 'Bearer ' + user?.token
-    //             }
-    //         })
-    //         setSavedContests(res?.data?.data.savedContests);
-    //         dispatch(addContest(res?.data?.data.savedContests))
-    //         console.log(res?.data?.data.savedContests);
-            
-    //     }catch(err){
-    //         console.log(err);
-    //     }
-    // }
+   
 
     const fetchContests = async() => {
         try {
-        // const res = await fetch("https://codeforces.com/api/contest.list");
+        
         const res = await axios.get(BASE_URL+`/contests/platform?platforms=${visibleContests.join(",")}&startDate=`+ new Date().toISOString() ,{
             withCredentials : true
         })
@@ -60,7 +50,7 @@ const ContestList = () => {
             console.log(err);
         }
     }
-//    if(!contests || contests.length === 0) return <ShimmerList />
+    if(!contests || contests.length === 0) return <ShimmerList />
 
     const handleRemindClick = async(contestId) => {
         try{
@@ -164,7 +154,7 @@ const ContestList = () => {
   return  (
     
     <div className='flex-col w-full h-screen overflow-scroll scrollbar-hide'>
-        <div className="font-bold flex  montserrat-logo text-3xl mx-8">
+        <div className="flex font-extralight  text-3xl md:text-4xl mx-8">
         Upcoming Contests
         
         </div>
@@ -199,13 +189,17 @@ const ContestList = () => {
   onChange={handleFilterAtcoder} />
             </span>
    </div>
+  
     <div className=' sm:w-full'>
         {
-            contests?.map((item) => {
+            contests?.map((item,index) => {
                 return  (
+                    <Accordion key={item?._id} type="single" collapsible>
+                        <AccordionItem value={`item-${index}`}>
+                        
                 <div key={item?._id} className="flex  text-sm sm:text-lg md:text-lg m-6 p-2 border-2  border-gray-400 rounded-2xl  ">
                     
-                    {item?.platform === "geeksforgeeks" && <svg className='m-1 my-auto' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="65" height="80" viewBox="0 0 48 48">
+                    {item?.platform === "geeksforgeeks" && <svg className='m-1 ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="65" height="80" viewBox="0 0 48 48">
 <path fill="#43a047" d="M29.035,24C29.014,23.671,29,23.339,29,23c0-6.08,2.86-10,7-10c3.411,0,6.33,2.662,7,7l2,0l0.001-9	L43,11c0,0-0.533,1.506-1,1.16c-1.899-1.066-3.723-1.132-6.024-1.132C30.176,11.028,25,16.26,25,22.92	c0,0.364,0.021,0.723,0.049,1.08h-2.099C22.979,23.643,23,23.284,23,22.92c0-6.66-5.176-11.892-10.976-11.892	c-2.301,0-4.125,0.065-6.024,1.132C5.533,12.506,5,11,5,11l-2.001,0L3,20l2,0c0.67-4.338,3.589-7,7-7c4.14,0,7,3.92,7,10	c0,0.339-0.014,0.671-0.035,1H0v2h1.009c1.083,0,1.977,0.861,1.999,1.943C3.046,29.789,3.224,32.006,4,33c1.269,1.625,3,3,8,3	c5.022,0,9.92-4.527,11-10h2c1.08,5.473,5.978,10,11,10c5,0,6.731-1.375,8-3c0.776-0.994,0.954-3.211,0.992-5.057	C45.014,26.861,45.909,26,46.991,26H48v-2H29.035z M11.477,33.73C9.872,33.73,7.322,33.724,7,32	c-0.109-0.583-0.091-2.527-0.057-4.046C6.968,26.867,7.855,26,8.943,26H19C18.206,30.781,15.015,33.73,11.477,33.73z M41,32	c-0.322,1.724-2.872,1.73-4.477,1.73c-3.537,0-6.729-2.949-7.523-7.73h10.057c1.088,0,1.975,0.867,2,1.954	C41.091,29.473,41.109,31.417,41,32z"></path>
 </svg>}
                    {item?.platform === "codeforces" && <img className='m-4 flex-0 max-h-14' width="48" height="48" src="https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/48/external-codeforces-programming-competitions-and-contests-programming-community-logo-shadow-tal-revivo.png" alt="external-codeforces-programming-competitions-and-contests-programming-community-logo-shadow-tal-revivo"/>
@@ -217,57 +211,66 @@ const ContestList = () => {
                       {
                         item?.platform === "atcoder" && <img className='max-h-14 m-1.5' width="58" height="36" src="https://codolio.com/icons/atcoder_dark.png"/>  }
             
-                   <div className='w-1/2'>
-                    
-                    <div className='md:text-xl xl:text-2xl font-light text-sky-400'>{item?.contestName}</div>
-                    <div className='flex flex-col lg:flex-row xl:flex-col 2xl:flex-row justify-evenly '>
-                    <div>
-                   
-                     <div className="flex">
-      <img className="m-2" width="34" height="30" src="https://img.icons8.com/badges/48/calendar.png" alt="calendar"/>
-      <span className="text-xl font-stretch-60% my-auto" >{new Date(item.contestStartDate).toLocaleString('en-us',options)}</span>
-      </div>
-      <div className="flex">
-      <svg className="m-2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="34" height="30" viewBox="0 0 48 48">
-<circle cx="24" cy="25" r="20"></circle><circle cx="24" cy="23" r="19" fill="#fff"></circle><path d="M24,43C12.972,43,4,34.028,4,23S12.972,3,24,3s20,8.972,20,20S35.028,43,24,43z M24,5C14.075,5,6,13.075,6,23	s8.075,18,18,18s18-8.075,18-18S33.925,5,24,5z"></path><circle cx="24" cy="23" r="2"></circle><circle cx="24" cy="9" r="1"></circle><circle cx="24" cy="37" r="1"></circle><circle cx="38" cy="23" r="1"></circle><circle cx="10" cy="24" r="1"></circle><path d="M33.707,13.293c-0.391-0.391-1.023-0.391-1.414,0l-9,9c-0.391,0.391-0.391,1.023,0,1.414l5,5C28.488,28.902,28.744,29,29,29	s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414L25.414,23l8.293-8.293C34.098,14.316,34.098,13.684,33.707,13.293z"></path>
-</svg>
-      <span className="text-xl  font-stretch-50% my-auto  " >{new Date(item?.contestStartDate).toLocaleString('en-us',optionsTimer)}</span>
-      </div>
-      </div>
-      <div>
-      <div className="flex">
-      <img className="m-2" width="34" height="30" src="https://img.icons8.com/badges/48/stopwatch.png" alt="stopwatch"/>
-      
-      <span className="text-xl  font-stretch-50% my-auto  " >{ Math.floor(Number(item?.contestDuration)/3600) } : {String(Math.floor(Number(item?.contestDuration)%3600/60)).padStart(2, "0")} hrs</span>
-      </div>
-     
-      <span className="flex">
-      <img className="m-2 max-h-10" width="33" height="48" src="https://img.icons8.com/badges/48/calendar-plus.png" alt="calendar-plus"/>
-       <AddCalendar item = {item}/></span></div>
-                    </div>
-                    </div>
-                    <div className=" ml-auto flex flex-col items-center lg:flex-row">
-                        <button className='cursor-pointer hover:text-white bg-gradient-to-l from-blue-400 to-cyan-500 text-black  p-1.5 md:p-2   m-2 rounded-2xl'>Register</button>
-                       {  savedContests?.some(contest => contest._id === item?._id)  ?  <button onClick={() => handleDeleteContest(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>
+                   <div className='w-full'>
+                   <AccordionTrigger> 
+                    <div className='cursor-pointer md:text-lg xl:text-xl 2xl:text-2xl flex  w-full font-light text-sky-400'><div className='w-full lg:w-1/2 '>{item?.contestName}</div>
+                    <div className="lg:w-1/2 lg:justify-end flex flex-col items-center justify-between  lg:flex-row">
+                        <Link to = {item?.contestUrl} className='cursor-pointer hover:text-white bg-gradient-to-l from-blue-400 to-cyan-500 text-black  p-1.5 md:p-2   m-2 rounded-2xl'>Register</Link>
+                       {  savedContests?.some(contest => contest._id === item?._id)  ?  <div onClick={() => handleDeleteContest(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>
                           <img width="40" height="34" src="https://img.icons8.com/arcade/64/alarm.png" alt="alarm"/> 
                         
                        
-                        </button>
+                        </div>
                         :
-                        <button onClick={() => handleRemindClick(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>
+                        <div onClick={() => handleRemindClick(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>
                           
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="44" viewBox="0 0 64 64">
+                        <svg className='' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="44" viewBox="0 0 64 64">
 <path fill="orange" d="M35,11h-6V9c0-1.657,1.343-3,3-3h0c1.657,0,3,1.343,3,3V11z"></path><circle cx="32" cy="48" r="7" fill="orange"></circle><path fill="#ffce29" d="M49.965,40.226c-1.218-1.449-1.962-3.236-2.132-5.121L46.468,21.94	c-0.308-3.8-2.378-7.258-5.615-9.272c-10.933-6.8-22.597,0.346-23.444,10.788l-1.241,11.653c-0.171,1.882-0.915,3.667-2.131,5.114	l-2.88,3.426C9.71,45.371,10.934,48,13.184,48h37.632c2.25,0,3.474-2.629,2.027-4.351L49.965,40.226z"></path><path fill="#fff" d="M27.67,16.025c1.88-0.947,5.75-2.091,10.542,0.889c2.032,1.264,4.615,0.888,6.218-0.76 c-0.928-1.382-2.127-2.585-3.577-3.486c-10.933-6.8-22.597,0.346-23.444,10.788l-0.528,4.961c0.043,0.005,0.082,0.019,0.125,0.023 c0.137,0.011,0.274,0.017,0.409,0.017c2.579,0,4.767-1.981,4.979-4.597C22.667,20.481,24.64,17.552,27.67,16.025z" opacity=".3"></path><path d="M52.843,43.649l-2.877-3.423c-1.218-1.449-1.962-3.236-2.132-5.121l-0.515-4.967 c-2.715,0.282-4.71,2.688-4.465,5.415c0.191,2.123,0.844,4.145,1.911,5.953C45.155,42.166,44.647,43,43.88,43H30 c-2.761,0-5,2.239-5,5h25.816C53.066,48,54.29,45.371,52.843,43.649z" opacity=".15"></path><ellipse cx="32" cy="61" opacity=".3" rx="19" ry="3"></ellipse><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3" d="M22.467,19.938c0.585-1.174,1.381-2.225,2.335-3.105s2.066-1.588,3.283-2.076"></path>
 </svg>
                        
-                        </button>
+                        </div>
             }
 
 
                         
                     </div>
+                    </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                    <div className='flex  flex-col lg:flex-row xl:flex-col 2xl:flex-row justify-between '>
+                    <div>
+                   
+                     <div className="flex">
+      <img className="m-2 h-7 md:h-8" width="34" height="30" src="https://img.icons8.com/badges/48/calendar.png" alt="calendar"/>
+      <span className=" md:text-xl font-stretch-60% my-auto" >{new Date(item.contestStartDate).toLocaleString('en-us',options)}</span>
+      </div>
+      <div className="flex">
+      <svg className="m-2 h-6 md:h-8" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="34" height="30" viewBox="0 0 48 48">
+<circle cx="24" cy="25" r="20"></circle><circle cx="24" cy="23" r="19" fill="#fff"></circle><path d="M24,43C12.972,43,4,34.028,4,23S12.972,3,24,3s20,8.972,20,20S35.028,43,24,43z M24,5C14.075,5,6,13.075,6,23	s8.075,18,18,18s18-8.075,18-18S33.925,5,24,5z"></path><circle cx="24" cy="23" r="2"></circle><circle cx="24" cy="9" r="1"></circle><circle cx="24" cy="37" r="1"></circle><circle cx="38" cy="23" r="1"></circle><circle cx="10" cy="24" r="1"></circle><path d="M33.707,13.293c-0.391-0.391-1.023-0.391-1.414,0l-9,9c-0.391,0.391-0.391,1.023,0,1.414l5,5C28.488,28.902,28.744,29,29,29	s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414L25.414,23l8.293-8.293C34.098,14.316,34.098,13.684,33.707,13.293z"></path>
+</svg>
+      <span className="md:text-xl  font-stretch-50% my-auto  " >{new Date(item?.contestStartDate).toLocaleString('en-us',optionsTimer)}</span>
+      </div>
+      </div>
+      <div>
+      <span className="flex ">
+     
+     <AddCalendar item = {item}/></span>
+      <div className="flex">
+      <img className="md:m-2 h-7 w-6 m-3 md:w-8  md:h-8" width="34" height="30" src="https://img.icons8.com/badges/48/stopwatch.png" alt="stopwatch"/>
+      
+      <span className="md:text-xl  font-stretch-50% my-auto  " >{ Math.floor(Number(item?.contestDuration)/3600) } : {String(Math.floor(Number(item?.contestDuration)%3600/60)).padStart(2, "0")} hrs</span>
+      </div>
+     
+      </div>
+                    </div>
+                    </AccordionContent>
+                    </div>
+                    
                 </div>
+                </AccordionItem>
+                </Accordion>
                 )
+                
             })
         }
     </div>

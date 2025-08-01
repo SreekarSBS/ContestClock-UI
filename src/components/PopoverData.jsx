@@ -6,7 +6,7 @@ const optionsTimer = { hour : 'numeric',minute : 'numeric'}
 
 const PopoverData = ({eventInfo}) => {
   return (<>
-    <div className="text-xl mb-4 text-blue-500 underline font-stretch-125% underline-offset-4 " >{eventInfo?.event?.title}</div>
+    <div className="text-2xl mb-4 text-cyan-500 underline font-stretch-125% underline-offset-4 " >{eventInfo?.event?.title}</div>
       <div className="flex">
       <img className="m-2" width="34" height="30" src="https://img.icons8.com/badges/48/calendar.png" alt="calendar"/>
       <span className="text-xl font-stretch-60% my-auto" >{new Date(eventInfo?.event?.extendedProps?.contestStartDate).toLocaleString('en-us',options)}</span>
@@ -25,7 +25,7 @@ const PopoverData = ({eventInfo}) => {
      
       {
           new Date(eventInfo?.event?.extendedProps?.contestEndDate) >= new Date() ?
-      <> <img className="m-2" width="30" height="30" src="https://img.icons8.com/ios/50/link--v1.png" alt="link--v1"/>
+      <><img className='m-2' width="34" height="64" src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-link-web-flaticons-lineal-color-flat-icons-7.png" alt="external-link-web-flaticons-lineal-color-flat-icons-7"/>
       <Link target="_blank" to = {eventInfo?.event?.url} className="text-xl underline text-lime-400 font-stretch-50% my-auto  " >Register Now</Link></>
       :<>
       <img width="30" height="30" className="m-2" src="https://img.icons8.com/color/48/spam.png" alt="spam"/>
