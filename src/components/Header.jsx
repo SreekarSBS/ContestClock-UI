@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { clearContest } from "../utils/registeredContestsSlice";
+import { Bounce, toast } from "react-toastify";
 
 
 
@@ -39,7 +40,17 @@ const Header = () => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         console.log(token);
-        
+        toast.success('Logged In Successfully !', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+          });
         const user = result.user;
         console.log(user);
         
@@ -56,7 +67,17 @@ const Header = () => {
 
     const handleSignOut = async() => {
       signOut(auth).then(() => {
-    
+        toast.success('Logged Out Successfully !', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+          });
         dispatch(removeUser())
         dispatch(clearContest())
       }).catch((error) => {
