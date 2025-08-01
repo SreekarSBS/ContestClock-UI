@@ -21,8 +21,9 @@ const ContestCalendar = () => {
   let savedEvents = context[3]
   console.log(date);
 
-  if(!user){
+  if(!user && location.pathname === "/contest"){
     savedEvents = [];
+    
     toast.info('Please Login to view your Registered Contests!', {
       position: "top-center",
       autoClose: 5000,
