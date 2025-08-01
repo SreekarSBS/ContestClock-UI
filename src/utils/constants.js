@@ -1,1 +1,1 @@
-export const BASE_URL = location.hostname === "localhost" ? "http://localhost:3000" : "http://3.108.254.120/api"
+export const BASE_URL = location.hostname === "localhost" ? "http://localhost:3000" : "/api"
