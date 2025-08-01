@@ -29,8 +29,9 @@ const CardsContest = ({item}) => {
      <AddCalendar item = {item} /></span>
     {
         new Date(item?.contestEndDate) >= new Date() ?
-    <span className='flex'> <img className='m-2' width="32" height="32" src="https://img.icons8.com/external-kmg-design-outline-color-kmg-design/32/external-export-arrow-kmg-design-outline-color-kmg-design.png" alt="external-export-arrow-kmg-design-outline-color-kmg-design"/>
-    <Link target="_blank" to = {item?.contestUrl} className="text-xl underline text-purple-400 font-stretch-50% my-auto  " >Register Now</Link></span>
+    <span className='flex'> <img className='m-2' width="34" height="64" src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-link-web-flaticons-lineal-color-flat-icons-7.png" alt="external-link-web-flaticons-lineal-color-flat-icons-7"/>
+    
+    <Link target="_blank" to = {item?.contestUrl} className="text-xl underline text-blue-400 font-stretch-50% my-auto  " >Register Now</Link></span>
     :
      <Link target="_blank" to = {item?.contestUrl} className="text-xl flex   underline text-amber-400 font-stretch-50% my-auto  " >
      <img width="30" height="30" className="m-2" src="https://img.icons8.com/color/48/spam.png" alt="spam"/>
@@ -91,8 +92,9 @@ const CardsContest = ({item}) => {
      <AddCalendar item = {item} /></span>
     {
         new Date(item?.contestEndDate) >= new Date() ?
-    <span className='flex'> <img className='m-2' width="32" height="32" src="https://img.icons8.com/external-kmg-design-outline-color-kmg-design/32/external-export-arrow-kmg-design-outline-color-kmg-design.png" alt="external-export-arrow-kmg-design-outline-color-kmg-design"/>
-    <Link target="_blank" to = {item?.contestUrl} className="text-xl underline text-purple-400 font-stretch-50% my-auto  " >Register Now</Link></span>
+    <span className='flex'> <img className='m-2' width="34" height="64" src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-link-web-flaticons-lineal-color-flat-icons-7.png" alt="external-link-web-flaticons-lineal-color-flat-icons-7"/>
+    
+    <Link target="_blank" to = {item?.contestUrl} className="text-xl underline text-blue-400 font-stretch-50% my-auto  " >Register Now</Link></span>
     :<span className='flex'>
     <img width="30" height="30" className="m-2" src="https://img.icons8.com/color/48/spam.png" alt="spam"/>
     <Link target="_blank" to = {item?.contestUrl} className="text-xl underline text-amber-400 font-stretch-50% my-auto  " >Contest Ended</Link></span>

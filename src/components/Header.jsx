@@ -4,6 +4,8 @@ import { Button } from "./ui/button";
 import { removeUser } from "../utils/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { clearContest } from "../utils/registeredContestsSlice";
 
 
 
@@ -11,7 +13,23 @@ const Header = () => {
 
     const user = useSelector((store) =>store.user)
     const dispatch = useDispatch()
+    const [isEventClicked,setIsEventClicked] = useState(false)
+    const [isSavedClicked,setIsSavedClicked] = useState(false)
 
+    const handleEventClick = () => {
+      setIsEventClicked(!isEventClicked)
+      setIsSavedClicked(isEventClicked)
+    }
+
+    const handleHomeClick = () => {
+      setIsEventClicked(false)
+      setIsSavedClicked(false)
+    }
+
+    const handleSavedClick = () => {
+      setIsSavedClicked(!isSavedClicked)
+      setIsEventClicked(isSavedClicked)
+    }
 
     const handleSignIn = async() => {
       const provider = new GoogleAuthProvider()
@@ -40,6 +58,7 @@ const Header = () => {
       signOut(auth).then(() => {
     
         dispatch(removeUser())
+        dispatch(clearContest())
       }).catch((error) => {
         // An error happened.
         console.log(error);
@@ -61,31 +80,31 @@ const Header = () => {
         <ul
           tabIndex={0}
           className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-          <li><a>Saved Contests</a></li>
-          <li>
+          <li><Link to = "/contest">Event Tracker</Link></li>
+        {/* {  <li>
             <a>Parent</a>
             <ul className="p-2">
               <li><a>Submenu 1</a></li>
               <li><a>Submenu 2</a></li>
             </ul>
-          </li>
-          <li><Link to = "/user/registered-contests">Registered</Link></li>
+          </li>} */}
+          <li><Link to = "/user/registered-contests">Reminders</Link></li>
         </ul>
       </div>
      
-      <Link to="/" className=" sm:flex sm:m-10 montserrat-logo btn btn-ghost text-2xl md:text-3xl  font-light">
-      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="80" height="100" viewBox="0 0 120 120">
+      <Link onClick={handleHomeClick} to="/" className=" sm:flex sm:m-10 montserrat-logo btn btn-ghost text-2xl md:text-3xl  font-light">
+      <svg className="sm:h-22 h-14 w-14 sm:w-20" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="80" height="100" viewBox="0 0 120 120">
 <circle cx="60" cy="64" r="48" opacity=".35"></circle><circle cx="60" cy="60" r="48" fill="#ff1200"></circle><g><circle cx="60" cy="64" r="38" opacity=".35"></circle><circle cx="60" cy="60" r="38" fill="#a4e2f1"></circle><polygon points="75.022,86.67 56.056,65.53 56.056,37.999 64.056,37.999 64.056,62.468 80.978,81.328" opacity=".35"></polygon><polygon fill="#0037ff" points="75.022,83.67 56.056,62.53 56.056,31.999 64.056,31.999 64.056,59.468 80.978,78.328"></polygon><circle cx="60" cy="63" r="8" opacity=".35"></circle><circle cx="60" cy="60" r="8" fill="#0075ff"></circle></g>
 </svg>
-      <span className="hidden sm:block">ContestClock</span>
-      <span className="block sm:hidden">CC</span>
+      <span className=" tomorrow-thin text-3xl md:text-4xl lg:text-5xl">Contest</span><span className="text-3xl md:text-4xl lg:text-5xl tomorrow-regular">Clock</span>
+      {/* <span className="block sm:hidden bungee-regular ">ContestClock</span> */}
       </Link>
    
     </div>
     <div className="navbar-center hidden lg:flex">
       <ul className="menu menu-horizontal px-1">
-        <li><a>Saved Contests</a></li>
-        <li>
+        <li><Link onClick={handleEventClick} className={`text-xl duration-1000 ${ isEventClicked ? "bg-white text-black" : "bg-black text-white"}`} to = "/contest">Event Tracker</Link></li>
+        {/* <li>
           <details>
             <summary>Parent</summary>
             <ul className="p-2">
@@ -93,8 +112,8 @@ const Header = () => {
               <li><a>Submenu 2</a></li>
             </ul>
           </details>
-        </li>
-        <li><Link to = "/user/registered-contests">Registered Contests</Link></li>
+        </li> */}
+        <li><Link onClick={handleSavedClick} className={`text-xl duration-1000 ${ isSavedClicked ? "bg-white  text-black" : "bg-black text-white"}`} to = "/user/registered-contests">Saved Contests</Link></li>
       </ul>
     </div>
     <div className="navbar-end">

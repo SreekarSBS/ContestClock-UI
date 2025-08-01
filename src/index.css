@@ -4,7 +4,25 @@
 @plugin "daisyui" {
   themes: all;
 }
+:root{
+  font-family: "Tomorrow", sans-serif;
+   font-weight: 300;
+}
 
+.tomorrow-regular {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  color : aquamarine
+}
+
+.tomorrow-thin {
+  font-family: "Tomorrow", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  background: #000;
+  
+}
 
 .montserrat-logo {
   font-family: "Montserrat",;

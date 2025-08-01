@@ -1,68 +1,24 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { useEffect, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import axios from "axios";
+
 import Popovers from "./Popovers";
+
 
 
 const ContestCalendar = () => {
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
-  const [contests, setContests] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [visibleContests] = useOutletContext()
+
+  const location = useLocation()
+  const context = useOutletContext()
+  const events = context[2]
+  const savedEvents = context[3]
   console.log(date);
 
-  useEffect(() => {
-    fetchContests();
-  }, [visibleContests]);
 
-  const fetchContests = async () => {
-    try {
-      const res = await axios.get(BASE_URL + `/contests/platform?platforms=${visibleContests.join(",")}`, {
-        withCredentials: true,
-      });
-      setContests(res?.data?.data);
-      const formattedObject = res?.data?.data?.
-      map((item) => {
-        const {
-          platform,
-          contestType,
-          contestEndDate,
-          contestSlug,
-          contestRegistrationStartDate,
-          contestRegistrationEndDate,
-          contestName,
-          contestDuration,
-          contestCode,
-          contestStartDate
-        } = item;
-        return  {
-          title: item?.contestName,
-          start: item?.contestStartDate,
-         
-          url: item?.contestUrl,
-          extendedProps: {
-            contestStartDate,
-            platform,
-            contestEndDate,
-            contestType,
-          contestSlug,
-          contestRegistrationStartDate,
-          contestRegistrationEndDate,
-          contestName,
-          contestDuration,
-          contestCode
-          },
-        };
-      });
-      setEvents(formattedObject);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const handleClick = (arg) => {
     setDate(arg.date);
@@ -71,7 +27,8 @@ const ContestCalendar = () => {
     navigate("/contests/" + formatted);
   };
   return (
-    <div className="w-full h-full">
+    <div className={`w-full h-full ${location.pathname === "/contest" ? "p-8" : "p-0"}`}>
+      {location.pathname === "/contest" && <div className="mt-12  underline underline-offset-8 text-center text-3xl sm:text-4xl md:text-5xl text-lime-300 font-extralight "> Scheduled Contests</div>}
       <FullCalendar
         selectable={true}
         select={(info) => {
@@ -79,14 +36,14 @@ const ContestCalendar = () => {
         }}
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
-        events={events}
+        events={location.pathname === "/" && events || location.pathname === "/contest" && savedEvents}
         eventContent={(eventInfo) =><Popovers eventInfo={eventInfo}/>
           
           }
         dayCellContent={(arg) => {
           return (
             <div
-              className="hover:bg-white text-center  text-blue-50 font-bold w-6 hover:text-black rounded-full bg-blue-400"
+              className={`hover:bg-white text-center ${new Date(arg.date).toDateString() === new Date().toDateString() ? "bg-green-700" : " bg-blue-400"} text-blue-50 font-bold w-6 hover:text-black rounded-full`}
               onClick={() => handleClick(arg)}
               style={{ cursor: "pointer" }}
             >

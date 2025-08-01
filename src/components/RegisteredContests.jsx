@@ -1,10 +1,7 @@
-import { BASE_URL } from '../utils/constants'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+
 import { useSelector } from 'react-redux'
-import { Bounce, toast, ToastContainer } from 'react-toastify'
-import { Link } from "react-router-dom";
-import AddCalendar from './AddCalendar'
+import { Bounce, toast } from 'react-toastify'
+
 
 import CardsContest from './CardsContest'
 
@@ -13,28 +10,10 @@ import CardsContest from './CardsContest'
 
 const RegisteredContests = () => {
     const user = useSelector(store => store.user)
-    // const [savedContests,setSavedContests] = useState()
+    
     const savedContests = useSelector(store => store.registeredContests)
 
-    // useEffect(() => {
-    //   if (!user?.token) return;  
-    //   fetchRegisteredContests()
-    // },[user?.token])
-
-    // const fetchRegisteredContests = async() => {
-    //     try{
-    //         const res = await axios.get(BASE_URL + "/user/registeredContests",{
-    //             withCredentials : true,
-    //             headers : {
-    //                 'Authorization': 'Bearer ' + user?.token
-    //             }
-    //         })
-    //         setSavedContests(res?.data?.data.savedContests);
-           
-    //     }catch(err){
-    //         console.log(err);
-    //     }
-    // }
+   
   if(!user){
     toast.info('Please Login to view your Registered Contests!', {
       position: "top-center",
@@ -57,8 +36,9 @@ const RegisteredContests = () => {
 
   return (
     <div>
+      
     <div className=" w-1/2 text-center h-16 mx-auto mt-6 rounded-full  bg-">
-     
+    <div className="m-12 text-3xl sm:text-4xl md:text-5xl font-extralight text-lime-300 underline underline-offset-8 "> Saved Contests</div>
     </div>
     { savedContests?.map((item) => {
     

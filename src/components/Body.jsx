@@ -20,10 +20,14 @@ import { addContest } from '../utils/registeredContestsSlice'
 const Body = () => {
   
   const dispatch = useDispatch()
-  const savedContests = useSelector(store => store.registeredContests)
+  // const savedContests = useSelector(store => store.registeredContests)
   const user = useSelector((store) => store.user)
   const [pictureURL,setPictureURL] = useState("")
   const [visibleContests,setVisibleContests] = useState(['leetcode','codeforces','atcoder','codechef','geeksforgeeks'])
+
+  // const [contests, setContests] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [savedEvents, setSavedEvents] = useState([]);
   const fetchPutUser = async(token) => {
     try{
     const userDocument =await axios.get(BASE_URL + "/user",{
@@ -41,10 +45,64 @@ const Body = () => {
   }
   }
 
+
+  useEffect(() => {
+    fetchContests();
+  }, [visibleContests]);
+
+  const fetchContests = async () => {
+    try {
+      const res = await axios.get(BASE_URL + `/contests/platform?platforms=${visibleContests.join(",")}`, {
+        withCredentials: true,
+      });
+      // setContests(res?.data?.data);
+      const formattedObject = res?.data?.data?.
+      map((item) => {
+        const {
+          platform,
+          contestType,
+          contestEndDate,
+          contestSlug,
+          contestRegistrationStartDate,
+          contestRegistrationEndDate,
+          contestName,
+          contestDuration,
+          contestCode,
+          contestStartDate
+        } = item;
+        return  {
+          title: item?.contestName,
+          start: item?.contestStartDate,
+         
+          url: item?.contestUrl,
+          extendedProps: {
+            contestStartDate,
+            platform,
+            contestEndDate,
+            contestType,
+          contestSlug,
+          contestRegistrationStartDate,
+          contestRegistrationEndDate,
+          contestName,
+          contestDuration,
+          contestCode
+          },
+        };
+      });
+      setEvents(formattedObject);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => { 
     fetchRegisteredContests()
     },[user])
-
+    // const user = firebase.auth().currentUser;
+    // if (user) {
+    //   const token = await user.getIdToken(); // This is the right way
+    //   // Pass this token in Authorization header
+    // }
     const fetchRegisteredContests = async() => {
         try{
             const res = await axios.get(BASE_URL + "/user/registeredContests",{
@@ -56,16 +114,50 @@ const Body = () => {
             
             dispatch(addContest(res?.data?.data.savedContests))
             console.log(res?.data?.data.savedContests);
-            
+            const formattedObject = res?.data?.data?.savedContests.
+            map((item) => {
+              const {
+                platform,
+                contestType,
+                contestEndDate,
+                contestSlug,
+                contestRegistrationStartDate,
+                contestRegistrationEndDate,
+                contestName,
+                contestDuration,
+                contestCode,
+                contestStartDate
+              } = item;
+              return  {
+                title: item?.contestName,
+                start: item?.contestStartDate,
+               
+                url: item?.contestUrl,
+                extendedProps: {
+                  contestStartDate,
+                  platform,
+                  contestEndDate,
+                  contestType,
+                contestSlug,
+                contestRegistrationStartDate,
+                contestRegistrationEndDate,
+                contestName,
+                contestDuration,
+                contestCode
+                },
+              };
+            });
+            setSavedEvents(formattedObject);
         }catch(err){
             console.log(err);
         }
     }  
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async(user) => {
       if (user) {
         console.log(user);
+        // const idToken = await user.getIdToken();
         fetchPutUser(user?.accessToken)
         const cleanedUser = {
           uid: user.uid,
@@ -94,7 +186,7 @@ const Body = () => {
 
       <main className='flex-grow'>
     
-      <Outlet context ={[visibleContests, setVisibleContests ]} />
+      <Outlet context ={[visibleContests, setVisibleContests ,events,savedEvents]} />
       
       </main>
       <Footer />
