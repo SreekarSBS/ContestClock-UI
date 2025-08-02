@@ -16,7 +16,7 @@ import UpcomingContests from './UpcomingContests';
 
 const ContestList = () => {
     
-    const [contests,setContests] = useState();
+    const [contests,setContests] = useState([]);
     
      
     const context = useOutletContext()
@@ -51,7 +51,7 @@ const ContestList = () => {
     
   return  (
     
-    <div className='flex-col w-full h-screen overflow-scroll scrollbar-hide'>
+    <div className='flex-col w-full h-screen overflow-x-hidden'>
         <div className="flex font-extralight  text-3xl md:text-4xl mx-8">
         Upcoming Contests
         
