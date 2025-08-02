@@ -2,7 +2,7 @@ const ShimmerList = () => {
 
 
   return (
-    <div className='flex-row w-full'><div className="font-bold  text-3xl mx-8">Upcoming Contests</div>
+    <div className='flex-row w-full'>
     <div className='min-w-1/2 w-full'>
         
             
