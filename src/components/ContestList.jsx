@@ -23,7 +23,7 @@ const ContestList = () => {
     const visibleContests = context[0];
     
     
-   
+   //j
     useEffect(() => {
         fetchContests()
     },[visibleContests])
