@@ -34,7 +34,8 @@
 **Dev Tools**
 - Axios
 - FullCalendar.js
-- React-Toastify / Resend for notifications
+- React-Toastify
+- Resend for notifications
 
 ---
 
@@ -43,7 +44,7 @@
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/ContestClock.git
+git clone https://github.com/SreekarSBS/ContestClock-UI.git
 cd ContestClock
 ```
 ### 2. Setup the Frontend
