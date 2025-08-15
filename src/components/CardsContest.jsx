@@ -1,5 +1,6 @@
 import { formatDistanceToNow } from 'date-fns';
-import AddCalendar from './AddCalendar';
+import { lazy, Suspense } from 'react';
+const AddCalendar = lazy(() => import("./AddCalendar"));
 import { Link } from 'react-router-dom';
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 const optionsTimer = { hour : 'numeric',minute : 'numeric'} 
@@ -25,8 +26,10 @@ const CardsContest = ({item}) => {
     
     <div className="ml-auto mt-auto hidden md:block  ">
     <span className="flex ">
-   
-     <AddCalendar item = {item} /></span>
+   <Suspense fallback={<div>Loading Calendar...</div>}>
+     <AddCalendar item = {item} />
+     </Suspense>
+     </span>
     {
         new Date(item?.contestEndDate) >= new Date() ?
     <span className='flex'> <img className='m-2' width="34" height="64" src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-link-web-flaticons-lineal-color-flat-icons-7.png" alt="external-link-web-flaticons-lineal-color-flat-icons-7"/>
@@ -88,8 +91,10 @@ const CardsContest = ({item}) => {
 </span>
 <div className="m-2 block md:hidden  ">
     <span className="flex ">
-   
-     <AddCalendar item = {item} /></span>
+    <Suspense fallback={<div>Loading Calendar...</div>}>
+     <AddCalendar item = {item} />
+     </Suspense>
+     </span>
     {
         new Date(item?.contestEndDate) >= new Date() ?
     <span className='flex'> <img className='m-2' width="34" height="64" src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-link-web-flaticons-lineal-color-flat-icons-7.png" alt="external-link-web-flaticons-lineal-color-flat-icons-7"/>

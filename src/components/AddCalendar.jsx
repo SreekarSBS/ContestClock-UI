@@ -1,5 +1,6 @@
-import { AddToCalendarButton } from 'add-to-calendar-button-react'
 
+import { lazy, Suspense } from 'react';
+const AddCalendarWrapper = lazy(() => import("./AddCalendarWrapper"));
 const AddCalendar = ({eventInfo,item}) => {
     const startObj = new Date(eventInfo?.event?.extendedProps?.contestStartDate || item?.contestStartDate)
     const endObj = new Date(eventInfo?.event?.extendedProps?.contestEndDate || item?.contestEndDate)
@@ -19,21 +20,16 @@ const AddCalendar = ({eventInfo,item}) => {
     
 
   return (
-    
-      <AddToCalendarButton
-  name={eventInfo?.event?.title || item?.contestName}
-  options={['Apple','Google','Yahoo','iCal']}
-  startDate={startDate}
-  endDate={endDate}
-  startTime={startTime}
-  endTime={endTime}
-  location="Online"
-  description={`Reminder to attempt the contest ${eventInfo?.event?.title || item?.contestName}`}
-  timeZone="Asia/Kolkata"
-  buttonStyle="3d"
-  trigger="click"
-></AddToCalendarButton>
-   
+     <Suspense fallback={<div>Loading Calendar...</div>}>
+    <AddCalendarWrapper 
+     eventInfo = {eventInfo}
+     item = {item}
+     startDate = {startDate}
+     endDate = {endDate}
+     startTime = {startTime}
+     endTime = {endTime}
+      />
+    </Suspense>
   )
 }
 
