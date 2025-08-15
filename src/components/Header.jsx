@@ -4,18 +4,30 @@ import { Button } from "./ui/button";
 import { removeUser } from "../utils/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { clearContest } from "../utils/registeredContestsSlice";
 import { Bounce, toast } from "react-toastify";
 
 
 
-const Header = () => {
+const Header = ({pictureURL}) => {
 
     const user = useSelector((store) =>store.user)
     const dispatch = useDispatch()
-    const [isEventClicked,setIsEventClicked] = useState(false)
-    const [isSavedClicked,setIsSavedClicked] = useState(false)
+    const [isEventClicked, setIsEventClicked] = useState(
+      () => JSON.parse(localStorage.getItem("isEventClicked")) || false
+    );
+    const [isSavedClicked, setIsSavedClicked] = useState(
+      () => JSON.parse(localStorage.getItem("isSavedClicked")) || false
+    );
+
+    useEffect(() => {
+      localStorage.setItem("isEventClicked", JSON.stringify(isEventClicked));
+    }, [isEventClicked]);
+  
+    useEffect(() => {
+      localStorage.setItem("isSavedClicked", JSON.stringify(isSavedClicked));
+    }, [isSavedClicked]);
 
     const handleEventClick = () => {
       setIsEventClicked(!isEventClicked)
@@ -149,8 +161,8 @@ const Header = () => {
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS Navbar component"
-            src={user?.photoURL} 
-            rel="no referrer"
+            src={user?.photoURL || pictureURL} 
+            
             />
         </div>
       </div>

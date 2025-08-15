@@ -11,18 +11,20 @@ import {
 import { Bounce, toast } from 'react-toastify';
 import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
  
   
 
 
 const UpcomingContests = ({contests}) => {
     const dispatch = useDispatch()
+    const context = useOutletContext();
     const user  = useSelector(store => store.user)
     const savedContests = useSelector(store => store.registeredContests)
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 const optionsTimer = { hour : 'numeric',minute : 'numeric'} 
 
+const setSavedEvents = context[4]
 const handleRemindClick = async(contestId) => {
     try{
         if(!user)  toast.error('Please Login to register Contests!', {
@@ -37,12 +39,45 @@ const handleRemindClick = async(contestId) => {
             transition: Bounce,
             });
   const res = await axios.post(BASE_URL + "/user/saveContests/" + contestId ,{},{
-    withCredentials : true,
+    withCredentials : true, 
     headers : {
         'Authorization' : "Bearer " + user?.token
     }
   })
-
+  const formattedObject = res?.data?.data?.savedContests.
+            map((item) => {
+              const {
+                platform,
+                contestType,
+                contestEndDate,
+                contestSlug,
+                contestRegistrationStartDate,
+                contestRegistrationEndDate,
+                contestName,
+                contestDuration,
+                contestCode,
+                contestStartDate
+              } = item;
+              return  {
+                title: item?.contestName,
+                start: item?.contestStartDate,
+               
+                url: item?.contestUrl,
+                extendedProps: {
+                  contestStartDate,
+                  platform,
+                  contestEndDate,
+                  contestType,
+                contestSlug,
+                contestRegistrationStartDate,
+                contestRegistrationEndDate,
+                contestName,
+                contestDuration,
+                contestCode
+                },
+              };
+            });
+            setSavedEvents(formattedObject);
   dispatch(addContest(res?.data?.data.savedContests));
   console.log(res?.data?.data.savedContests);
   toast.success('Reminder Set for an Hour before the contest !', {
@@ -71,6 +106,40 @@ const handleDeleteContest = async(contestId) => {
             'Authorization': 'Bearer ' + user?.token
         }
     })
+    const formattedObject = res?.data?.data?.savedContests.
+            map((item) => {
+              const {
+                platform,
+                contestType,
+                contestEndDate,
+                contestSlug,
+                contestRegistrationStartDate,
+                contestRegistrationEndDate,
+                contestName,
+                contestDuration,
+                contestCode,
+                contestStartDate
+              } = item;
+              return  {
+                title: item?.contestName,
+                start: item?.contestStartDate,
+               
+                url: item?.contestUrl,
+                extendedProps: {
+                  contestStartDate,
+                  platform,
+                  contestEndDate,
+                  contestType,
+                contestSlug,
+                contestRegistrationStartDate,
+                contestRegistrationEndDate,
+                contestName,
+                contestDuration,
+                contestCode
+                },
+              };
+            });
+            setSavedEvents(formattedObject);
     dispatch(addContest(res?.data?.data?.savedContests))
     console.log(res?.data?.data?.savedContests);
     toast.success('Reminder removed Successfully !', {

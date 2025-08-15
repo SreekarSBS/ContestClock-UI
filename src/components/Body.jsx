@@ -22,7 +22,7 @@ const Body = () => {
   const dispatch = useDispatch()
   // const savedContests = useSelector(store => store.registeredContests)
   const user = useSelector((store) => store.user)
-  const [pictureURL,setPictureURL] = useState("")
+  const [pictureURL,setPictureURL] = useState()
   const [visibleContests,setVisibleContests] = useState(['leetcode','codeforces','atcoder','codechef','geeksforgeeks'])
 
   // const [contests, setContests] = useState([]);
@@ -186,7 +186,7 @@ const Body = () => {
 
       <main className='flex-grow'>
     
-      <Outlet context ={[visibleContests, setVisibleContests ,events,savedEvents]} />
+      <Outlet context ={[visibleContests, setVisibleContests ,events,savedEvents,setSavedEvents]} />
       
       </main>
       <Footer />
