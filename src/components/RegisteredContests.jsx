@@ -85,15 +85,45 @@ const RegisteredContests = () => {
     }
 
  
-  // Default values shown
+  // Default values shown 
  
+if(savedContests?.length === 0){
+  return (<>
+  <div className=" w-1/2 text-center h-16 mx-auto mt-6 rounded-full  bg-">
+    <div className="m-12 text-3xl sm:text-4xl md:text-5xl font-extralight text-lime-300 underline underline-offset-8 "> Saved Contests</div>
+    
+    </div>
+  
+    <div className="w-1/2 mx-auto mt-10">
+      <Card>
+        <CardHeader>
+          <CardTitle>No Saved Contests</CardTitle>
+          <CardDescription>Looks like you haven't kept any reminders to contests yet.</CardDescription>
+          <CardAction>
+        <img src = "https://img.icons8.com/?size=100&id=UrbzqE77xV1o&format=png&color=000000" alt = "Logo Icon" className="hidden sm:block sm:w-20 rounded-full" /> 
+      </CardAction>
+      <img src = "https://img.icons8.com/?size=100&id=UrbzqE77xV1o&format=png&color=000000" alt = "Logo Icon" className="block sm:hidden mx-auto w-20 rounded-full" /> 
+   
+        </CardHeader>
 
+        <CardContent>
+          <div className="text-center">
+            Please explore and Press 🔔 to be notified an hour before contest inception.
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+    </>
+  )
+}
   return (
     <div>
       
     <div className=" w-1/2 text-center h-16 mx-auto mt-6 rounded-full  bg-">
     <div className="m-12 text-3xl sm:text-4xl md:text-5xl font-extralight text-lime-300 underline underline-offset-8 "> Saved Contests</div>
+    
     </div>
+
     { savedContests?.map((item) => {
     
       return <ul key={item._id} className="list w-[80%] mx-auto my-4 rounded-3xl border-l-red-400 border-l-4 border-b-4 border-b-red-500 bg-base-100  shadow-md">
