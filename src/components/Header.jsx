@@ -126,10 +126,10 @@ const Header = ({pictureURL}) => {
       </div>
      
       <Link onClick={handleHomeClick} to="/" className=" sm:flex sm:m-10 montserrat-logo btn btn-ghost text-2xl md:text-3xl  font-light">
-      <svg className="sm:h-22 h-14 w-14 sm:w-20" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="80" height="100" viewBox="0 0 120 120">
+      <svg className="sm:h-22 h-10 w-10 sm:w-20" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="80" height="100" viewBox="0 0 120 120">
 <circle cx="60" cy="64" r="48" opacity=".35"></circle><circle cx="60" cy="60" r="48" fill="#ff1200"></circle><g><circle cx="60" cy="64" r="38" opacity=".35"></circle><circle cx="60" cy="60" r="38" fill="#a4e2f1"></circle><polygon points="75.022,86.67 56.056,65.53 56.056,37.999 64.056,37.999 64.056,62.468 80.978,81.328" opacity=".35"></polygon><polygon fill="#0037ff" points="75.022,83.67 56.056,62.53 56.056,31.999 64.056,31.999 64.056,59.468 80.978,78.328"></polygon><circle cx="60" cy="63" r="8" opacity=".35"></circle><circle cx="60" cy="60" r="8" fill="#0075ff"></circle></g>
 </svg>
-      <span className=" tomorrow-thin text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Contest</span><span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tomorrow-regular">Clock</span>
+      <span className=" tomorrow-thin text-lg  sm:text-3xl md:text-4xl lg:text-5xl">Contest</span><span className="text-lg sm:text-3xl md:text-4xl lg:text-5xl tomorrow-regular">Clock</span>
       {/* <span className="block sm:hidden bungee-regular ">ContestClock</span> */}
       </Link>
    
