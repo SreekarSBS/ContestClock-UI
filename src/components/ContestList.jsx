@@ -51,7 +51,7 @@ const ContestList = () => {
     
   return  (
     
-    <div className='flex-col w-full h-screen overflow-x-hidden'>
+    <div className='flex-col w-full sm:h-screen sm:overflow-x-hidden'>
         <div className="flex font-extralight  text-3xl md:text-4xl mx-8">
         Upcoming Contests
         
