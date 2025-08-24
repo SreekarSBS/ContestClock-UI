@@ -27,7 +27,7 @@ const UpcomingWrapper = ({item,savedContests,index,handleDeleteContest,handleRem
                <AccordionTrigger> 
                 <div className='cursor-pointer md:text-lg xl:text-xl 2xl:text-2xl flex  w-full font-light text-sky-400'><div className='w-full lg:w-1/2 '>{item?.contestName}</div>
                 <div className="lg:w-1/2 lg:justify-end flex flex-col items-center justify-between  lg:flex-row">
-                    <Link to = {item?.contestUrl} className='cursor-pointer hover:text-white bg-gradient-to-l from-blue-400 to-cyan-500 text-black  p-1.5 md:p-2   m-2 rounded-2xl'>Register</Link>
+                    <Link target='_blank' to = {item?.contestUrl} className='cursor-pointer hover:text-white bg-gradient-to-l from-blue-400 to-cyan-500 text-black  p-1.5 md:p-2   m-2 rounded-2xl'>Register</Link>
                    {  savedContests?.some(contest => contest._id === item?._id)  ?  <div onClick={() => handleDeleteContest(item?._id)} className='cursor-pointer hover:text-black hover:bg-gradient-to-bl from-green-600 to-emerald-500 p-1.5 m-2 md:p-2 border border-blue-400  rounded-2xl'>
                       <img width="40" height="34" src="https://img.icons8.com/arcade/64/alarm.png" alt="alarm"/> 
                     
