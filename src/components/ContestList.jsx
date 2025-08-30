@@ -35,13 +35,13 @@ const ContestList = () => {
         const res = await axios.get(BASE_URL+`/contests/platform?platforms=${visibleContests.join(",")}&startDate=`+ new Date().toISOString() ,{
             withCredentials : true
         })
-        console.log(res);
+        // console.log(res);
         
         setContests(res?.data?.data)
         
         
         }catch(err){
-            console.log(err);
+            // console.log(err);
         }
     }
     

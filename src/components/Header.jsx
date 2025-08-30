@@ -51,7 +51,7 @@ const Header = ({pictureURL}) => {
        
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        console.log(token);
+        // console.log(token);
         toast.success('Logged In Successfully !', {
           position: "top-right",
           autoClose: 5000,
@@ -64,7 +64,7 @@ const Header = ({pictureURL}) => {
           transition: Bounce,
           });
         const user = result.user;
-        console.log(user);
+        // console.log(user);
         
       
       }).catch((error) => {
@@ -72,7 +72,7 @@ const Header = ({pictureURL}) => {
       
         const errorMessage = error.message;
        
-        console.log(errorMessage);
+        // console.log(errorMessage);
         
       });
     }
@@ -94,13 +94,13 @@ const Header = ({pictureURL}) => {
         dispatch(clearContest())
       }).catch((error) => {
         // An error happened.
-        console.log(error);
+        // console.log(error);
         
       });
       
     }
 
-    console.log(user);
+    // console.log(user);
     
     
 

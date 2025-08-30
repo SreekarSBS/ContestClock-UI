@@ -10,7 +10,7 @@ const CalendarWrapper = ({events,savedEvents,handleClick}) => {
     <FullCalendar
       selectable={true}
       select={(info) => {
-        console.log("Selected Date Range:", info.startStr, "to", info.endStr);
+        //console.log("Selected Date Range:", info.startStr, "to", info.endStr);
       }}
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
@@ -30,7 +30,7 @@ const CalendarWrapper = ({events,savedEvents,handleClick}) => {
         );
       }}
       eventClick={(info) => {
-        console.log(info);
+        // console.log(info);
         
         info.jsEvent.preventDefault();
         //  window.open(info.event.url);

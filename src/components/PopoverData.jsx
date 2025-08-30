@@ -1,6 +1,11 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import AddCalendar from "./AddCalendar";
+import CALENDAR_ICON from "../assets/icons8-calendar-48.png"
+import STOPWATCH_ICON from "../assets/icons8-stopwatch-48.png"
+import LINK_ICON from "../assets/icons8-link-48.png"
+import CAUTION_ICON from "../assets/icons8-caution-48.png"
+import CALENDAR_PLUS_ICON from "../assets/icons8-calendar-plus-48.png"
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
 const optionsTimer = { hour : 'numeric',minute : 'numeric'} 
 
@@ -8,7 +13,7 @@ const PopoverData = ({eventInfo}) => {
   return (<>
     <div className="text-2xl mb-4 text-cyan-500 underline font-stretch-125% underline-offset-4 " >{eventInfo?.event?.title}</div>
       <div className="flex">
-      <img className="m-2" width="34" height="30" src="https://img.icons8.com/badges/48/calendar.png" alt="calendar"/>
+      <img className="m-2" width="34" height="30" src={CALENDAR_ICON} alt="calendar"/>
       <span className="text-xl font-stretch-60% my-auto" >{new Date(eventInfo?.event?.extendedProps?.contestStartDate).toLocaleString('en-us',options)}</span>
       </div>
       <div className="flex">
@@ -18,23 +23,23 @@ const PopoverData = ({eventInfo}) => {
       <span className="text-xl  font-stretch-50% my-auto  " >{new Date(eventInfo?.event?.extendedProps?.contestStartDate).toLocaleString('en-us',optionsTimer)}</span>
       </div>
       <div className="flex">
-      <img className="m-2" width="34" height="30" src="https://img.icons8.com/badges/48/stopwatch.png" alt="stopwatch"/>
+      <img className="m-2" width="34" height="30" src={STOPWATCH_ICON} alt="stopwatch"/>
       <span className="text-xl  font-stretch-50% my-auto  " >{ Math.floor(Number(eventInfo?.event?.extendedProps?.contestDuration)/3600) } : {String(Math.floor(Number(eventInfo?.event?.extendedProps?.contestDuration)%3600/60)).padStart(2, "0")} hrs</span>
       </div>
       <div className="flex ">
      
       {
           new Date(eventInfo?.event?.extendedProps?.contestEndDate) >= new Date() ?
-      <><img className='m-2' width="34" height="64" src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-link-web-flaticons-lineal-color-flat-icons-7.png" alt="external-link-web-flaticons-lineal-color-flat-icons-7"/>
+      <><img className='m-2' width="34" height="64" src={LINK_ICON} alt="external-link-web-flaticons-lineal-color-flat-icons-7"/>
       <Link target="_blank" to = {eventInfo?.event?.url} className="text-xl underline text-lime-400 font-stretch-50% my-auto  " >Register Now</Link></>
       :<>
-      <img width="30" height="30" className="m-2" src="https://img.icons8.com/color/48/spam.png" alt="spam"/>
+      <img width="30" height="30" className="m-2" src={CAUTION_ICON} alt="spam"/>
       <Link target="_blank" to = {eventInfo?.event?.url} className="text-xl underline text-amber-400 font-stretch-50% my-auto  " >Contest Ended</Link></>
       }
      
       </div>
       <span className="flex">
-      <img className="m-2 max-h-10" width="33" height="48" src="https://img.icons8.com/badges/48/calendar-plus.png" alt="calendar-plus"/>
+      <img className="m-2 max-h-10" width="33" height="48" src={CALENDAR_PLUS_ICON} alt="calendar-plus"/>
        <AddCalendar eventInfo = {eventInfo}/></span>
   </>)
 }

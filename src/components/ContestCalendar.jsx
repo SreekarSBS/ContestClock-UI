@@ -30,7 +30,7 @@ const ContestCalendar = () => {
   const events = context[2]
   let savedEvents = context[3]
   
-  console.log(date);
+  // console.log(date);
     const handleSignIn = async() => {
       const provider = new GoogleAuthProvider()
       signInWithPopup(auth, provider)
@@ -38,7 +38,7 @@ const ContestCalendar = () => {
        
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
-        console.log(token);
+        // console.log(token);
         toast.success('Logged In Successfully !', {
           position: "top-right",
           autoClose: 5000,
@@ -51,7 +51,7 @@ const ContestCalendar = () => {
           transition: Bounce,
           });
         const user = result.user;
-        console.log(user);
+        // console.log(user);
         
       
       }).catch((error) => {
@@ -59,7 +59,7 @@ const ContestCalendar = () => {
       
         const errorMessage = error.message;
        
-        console.log(errorMessage);
+        // console.log(errorMessage);
         
       });
     }
@@ -72,7 +72,7 @@ const ContestCalendar = () => {
     <CardTitle>Login to ContestClock</CardTitle>
     <CardDescription>Sign In with Google</CardDescription>
     <CardAction>
-      <img src = "https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt = "Logo Icon" className="w-10 h-10 rounded-full" /> 
+      <img src = "src/assets/icons8-google-48.png" alt = "Logo Icon" className="w-10 h-10 rounded-full" /> 
     </CardAction>
   </CardHeader>
   <CardContent>
@@ -93,7 +93,7 @@ To Track Your Saved Contests
 
   const handleClick = (arg) => {
     setDate(arg.date);
-    console.log(arg.date);
+    // console.log(arg.date);
     const formatted = arg?.date.toLocaleDateString('en-CA')
     navigate("/contests/" + formatted);
   };
