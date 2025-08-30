@@ -1,8 +1,8 @@
 
 import { useSelector } from 'react-redux'
 import { Bounce, toast } from 'react-toastify'
-
-
+import googleIcon from "../assets/icons8-google-48.png"
+import logoIcon from "../assets/contestclock.svg"
 import CardsContest from './CardsContest'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { auth } from '../utils/firebase'
@@ -31,7 +31,7 @@ const RegisteredContests = () => {
           
            const credential = GoogleAuthProvider.credentialFromResult(result);
            const token = credential.accessToken;
-           console.log(token);
+          //  console.log(token);
            toast.success('Logged In Successfully !', {
              position: "top-right",
              autoClose: 5000,
@@ -44,7 +44,7 @@ const RegisteredContests = () => {
              transition: Bounce,
              });
            const user = result.user;
-           console.log(user);
+          //  console.log(user);
            
          
          }).catch((error) => {
@@ -65,7 +65,7 @@ const RegisteredContests = () => {
       <CardTitle>Login to ContestClock</CardTitle>
       <CardDescription>Sign In with Google</CardDescription>
       <CardAction>
-        <img src = "https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt = "Logo Icon" className="w-10 h-10 rounded-full" /> 
+        <img src = {googleIcon} alt = "Logo Icon" className="w-10 h-10 rounded-full" /> 
       </CardAction>
     </CardHeader>
     <CardContent>
@@ -100,9 +100,9 @@ if(savedContests?.length === 0){
           <CardTitle>No Saved Contests</CardTitle>
           <CardDescription>Looks like you haven't kept any reminders to contests yet.</CardDescription>
           <CardAction>
-        <img src = "https://img.icons8.com/?size=100&id=UrbzqE77xV1o&format=png&color=000000" alt = "Logo Icon" className="hidden sm:block sm:w-20 rounded-full" /> 
+        <img src = {logoIcon} alt = "Logo Icon" className="hidden sm:block sm:w-20 rounded-full" /> 
       </CardAction>
-      <img src = "https://img.icons8.com/?size=100&id=UrbzqE77xV1o&format=png&color=000000" alt = "Logo Icon" className="block sm:hidden mx-auto w-20 rounded-full" /> 
+      <img src = {logoIcon} alt = "Logo Icon" className="block sm:hidden mx-auto w-20 rounded-full" /> 
    
         </CardHeader>
 

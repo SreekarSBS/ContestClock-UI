@@ -91,7 +91,7 @@ const Body = () => {
       });
       setEvents(formattedObject);
     } catch (err) {
-      console.log(err);
+       console.log(err);
     }
   };
 
@@ -113,7 +113,7 @@ const Body = () => {
             })
             
             dispatch(addContest(res?.data?.data.savedContests))
-            console.log(res?.data?.data.savedContests);
+           
             const formattedObject = res?.data?.data?.savedContests.
             map((item) => {
               const {
@@ -149,14 +149,14 @@ const Body = () => {
             });
             setSavedEvents(formattedObject);
         }catch(err){
-            console.log(err);
+            // console.log(err);
         }
     }  
 
   useEffect(() => {
     onAuthStateChanged(auth, async(user) => {
       if (user) {
-        console.log(user);
+        // console.log(user);
         // const idToken = await user.getIdToken();
         fetchPutUser(user?.accessToken)
         const cleanedUser = {
@@ -171,11 +171,11 @@ const Body = () => {
         
       } else {
          
-          console.log("Sign In");
+          // console.log("Sign In");
       }
     });
   }, [auth]);
-  console.log(pictureURL);
+
   
   return (
     <div className='min-h-screen flex flex-col'>

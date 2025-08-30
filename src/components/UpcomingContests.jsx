@@ -76,7 +76,7 @@ const handleRemindClick = async(contestId) => {
             });
             setSavedEvents(formattedObject);
   dispatch(addContest(res?.data?.data.savedContests));
-  console.log(res?.data?.data.savedContests);
+  // console.log(res?.data?.data.savedContests);
   toast.success('Reminder Set for an Hour before the contest !', {
     position: "top-right",
     autoClose: 5000,
@@ -90,7 +90,7 @@ const handleRemindClick = async(contestId) => {
     });
 }
 catch(err){
-    console.log(err);
+    // console.log(err);
 }
 }
 
@@ -138,7 +138,7 @@ const handleDeleteContest = async(contestId) => {
             });
             setSavedEvents(formattedObject);
     dispatch(addContest(res?.data?.data?.savedContests))
-    console.log(res?.data?.data?.savedContests);
+    // console.log(res?.data?.data?.savedContests);
     toast.success('Reminder removed Successfully !', {
         position: "top-right",
         autoClose: 5000,
@@ -151,7 +151,7 @@ const handleDeleteContest = async(contestId) => {
         transition: Bounce,
         });
 }catch(err){
-    console.log(err);
+    // console.log(err);
     
 }
 }

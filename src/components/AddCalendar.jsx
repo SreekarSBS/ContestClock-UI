@@ -1,6 +1,7 @@
 
 import { lazy, Suspense } from 'react';
 const AddCalendarWrapper = lazy(() => import("./AddCalendarWrapper"));
+
 const AddCalendar = ({eventInfo,item}) => {
     const startObj = new Date(eventInfo?.event?.extendedProps?.contestStartDate || item?.contestStartDate)
     const endObj = new Date(eventInfo?.event?.extendedProps?.contestEndDate || item?.contestEndDate)
@@ -12,7 +13,7 @@ const AddCalendar = ({eventInfo,item}) => {
           hour: '2-digit',
           minute: '2-digit',
           hour12: false,
-          timeZone: 'Asia/Kolkata',
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         }).format(date)
     
       const startTime = toISTTime(startObj)
